@@ -1,20 +1,18 @@
 import React from "react";
-import Navigation from "./components/Navigation";
-import Home from "./routes/Home";
-import {HashRouter, Route, Router, Switch} from "react-router-dom";
+import Router from "./Router";
+import styled from "styled-components";
+import {GlobalStyles} from "./GlobalStyles";
+
+const Container = styled.div`
+  position: relative;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-          <Navigation />
-          <Switch>
-              <Route exact="/">
-                  <Home />
-              </Route>
-          </Switch>
-      </Router>
-    </div>
+    <Container className="App">
+        <GlobalStyles />
+        <Router />
+    </Container>
   );
 }
 
