@@ -4,6 +4,7 @@ import Home from "../routes/Home";
 import Percentage from "../routes/Percentage";
 import React from "react";
 import InfiniteScroll from "../routes/InfiniteScroll";
+import MotionGraphic from "../routes/MotionGraphic";
 
 function Router() {
     return (
@@ -18,6 +19,9 @@ function Router() {
                 </Route>
                 <Route path="/b">
                     <InfiniteScroll />
+                </Route>
+                <Route path="/c">
+                    <MotionGraphic />
                 </Route>
             </Switch>
         </HashRouter>

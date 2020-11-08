@@ -1,16 +1,32 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-const Li = styled.li`
-  display: inline-flex;
-  flex-wrap: wrap;
+const Ul = styled.ul`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+`;
+
+const Li = styled.div`
+  margin: 1rem;
+/*  display: flex;
+  justify-content: center;
+  width: 32%;
+  margin-bottom: 2%;
+  &:nth-child(3n+1) { order: 1; }
+  &:nth-child(3n+2) { order: 2; }
+  &:nth-child(3n)   { order: 3; }*/
+`;
+
+const Image = styled.img`
+  border-radius: 6px;
 `;
 
 function InfiniteScroll() {
 
     const getImages = useCallback(async (page) => {
-        console.log(page);
+        console.log('page ', page);
         const appkey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
         const text = "sky";
         const photosCount = 10;
@@ -31,11 +47,12 @@ function InfiniteScroll() {
     }, []);
 
     const [items, setItems] = useState([]);
+    //const [height, setHeight] = useState(2000);
     const count = useRef(0);
 
     const getItems = useCallback( async () => {
         count.current += 1;
-        if (count.current > 10) {
+        if (count.current > 1) {
             return false;
         }
         const newItems = await getImages(count.current + 1);
@@ -54,7 +71,7 @@ function InfiniteScroll() {
         window.addEventListener('scroll', getScrollValue);
         const items = await getImages(1);
         setItems(items);
-    }, [getScrollValue]);
+    }, [getScrollValue, getImages]);
 
     useEffect(() => {
         init();
@@ -65,13 +82,13 @@ function InfiniteScroll() {
             <section>
                 <h1>Infinite Scroll</h1>
                 <article>
-                    <ul>
+                    <Ul>
                         {items.map((item, index) =>
                         <Li key={index}>
-                            <img src={item.url} alt={item.title} title={item.title} />
+                            <Image src={item.url} alt={item.title} title={item.title} />
                         </Li>
                         )}
-                    </ul>
+                    </Ul>
                 </article>
                 <footer>footer</footer>
             </section>

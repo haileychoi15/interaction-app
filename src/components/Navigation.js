@@ -20,6 +20,9 @@ function Navigation() {
             <div>
                 <Link to="/b">Infinite Scroll</Link>
             </div>
+            <div>
+                <Link to="/c">Motion Graphic</Link>
+            </div>
         </NavigationBlock>
     );
 }
