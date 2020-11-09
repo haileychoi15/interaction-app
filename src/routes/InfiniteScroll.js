@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
+import {useEventListener} from "../hooks/useEventListener";
 import axios from "axios";
 
 const Ul = styled.ul`
@@ -68,10 +69,11 @@ function InfiniteScroll() {
     }, [getItems]);
 
     const init = useCallback(async () => {
-        window.addEventListener('scroll', getScrollValue);
         const items = await getImages(1);
         setItems(items);
-    }, [getScrollValue, getImages]);
+    }, [getImages]);
+
+    useEventListener(window, "scroll", getScrollValue);
 
     useEffect(() => {
         init();

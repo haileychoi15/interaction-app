@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import styled, {css} from "styled-components";
+import {useEventListener} from "../hooks/useEventListener";
+import Progress from "../components/Progress";
 
 const Section = styled.section`
   position: relative;
@@ -15,15 +17,6 @@ const Title = styled.h1`
   color: #333;
 `;
 
-const Percent = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-  color: #333;
-`;
-
 const Background = styled.div`
   position: absolute;
   top: 0;
@@ -35,16 +28,36 @@ const Background = styled.div`
   ${prop => prop.color && css`
     background-color: ${prop.color};
   `}
+`;
 
-  //z-index: -1;
-/*  &.active {
-    opacity: 1;
-    background:
-        linear-gradient(#b3e5fc, transparent), //e1f5fe
-        linear-gradient(to top left, #81daf4, transparent),
-        linear-gradient(to top right, #4fc3f7, transparent);
-    background-blend-mode: screen;
-  }*/
+const DiverBlock = styled.div`
+  position: fixed;
+  top: 15%;
+  left: 10%;
+  width: 13rem;
+  animation-name: moveDiver;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 5s;
+  animation-direction: alternate-reverse;
+  animation-play-state: running;
+  ${prop => prop.isScrolling && css`
+    animation-play-state: paused;
+  `}
+  @keyframes moveDiver {
+    0% {
+      transform: translateY(-50px);
+    }
+    50% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(50px);
+    }
+  }
+  @media screen and (min-width: 48rem) {
+    width: 25rem;
+  }
 `;
 
 const Image = styled.img`
@@ -54,35 +67,21 @@ const Image = styled.img`
 
 function MotionGraphic() {
 
-    const initialImages = [
-        {
-            title: '아침',
-            url: '',
-            active: true
-        },
-        {
-            title: '점심',
-            url: '',
-            active: false
-        },
-        {
-            title: '저녁',
-            url: '',
-            active: false
-        },
-        {
-            title: '밤',
-            url: '',
-            active: false
-        },
-    ];
-    const [images, setImages] = useState(initialImages);
     const [percent, setPercent] = useState(0);
     const [color, setColor] = useState('#b3e5fc');
+    const [isScrolling, setIsScrolling] = useState(false);
+
+    const detectScrolling = useCallback((prevScrollY) => {
+        setTimeout(() => {
+            const currScrollY = window.pageYOffset;
+            (prevScrollY === currScrollY) ? setIsScrolling(false) : setIsScrolling(true);
+        }, 200);
+    }, []);
 
     const changeBackground = (scrollPercent) => {
-        console.log(scrollPercent);
-        if (scrollPercent < 25) {
+        if (scrollPercent < 10) {
+            setColor('#b3e5fc');
+        } else if (scrollPercent < 25) {
             setColor('#81daf4');
         } else if (scrollPercent < 50) {
             setColor('#29b6f6');
@@ -93,30 +92,33 @@ function MotionGraphic() {
         }
     }
 
-    const getScrollPercent = useCallback(() => {
+    const handleScrolling = useCallback(() => {
         const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollY = window.pageYOffset;
-        const scrollPercent = Math.floor((scrollY / scrollHeight) * 100);
+        const scrollPercent = Math.floor((scrollY / scrollHeight) * 1000) / 10;
         setPercent(scrollPercent);
         changeBackground(scrollPercent);
-    }, []);
+        detectScrolling(scrollY);
+    }, [detectScrolling]);
 
     const init = useCallback(() => {
-        window.addEventListener('scroll', getScrollPercent);
-    }, [getScrollPercent]);
 
+    }, []);
+
+    useEventListener(window, "scroll", handleScrolling);
     useEffect(() => {
         init();
     }, [init]);
 
-
-
     return (
         <>
             <Section>
+                <Progress percent={percent} />
                 <Title>Motion graphic</Title>
-                <Percent>{percent}%</Percent>
                 <Background color={color}></Background>
+                <DiverBlock isScrolling={isScrolling}>
+                    <Image src={`${process.env.PUBLIC_URL}/diver.png`} alt="diver" />
+                </DiverBlock>
             </Section>
         </>
     );

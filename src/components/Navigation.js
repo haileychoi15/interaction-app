@@ -6,6 +6,7 @@ const NavigationBlock = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 1000;
 `;
 
 function Navigation() {
@@ -15,13 +16,10 @@ function Navigation() {
                 <Link to="/">Home</Link>
             </div>
             <div>
-                <Link to="/a">Scroll Percentage</Link>
+                <Link to="/sky">sky</Link>
             </div>
             <div>
-                <Link to="/b">Infinite Scroll</Link>
-            </div>
-            <div>
-                <Link to="/c">Motion Graphic</Link>
+                <Link to="/ocean">ocean</Link>
             </div>
         </NavigationBlock>
     );

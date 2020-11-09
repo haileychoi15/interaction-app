@@ -1,7 +1,6 @@
 import {HashRouter, Route, Switch} from "react-router-dom";
 import Navigation from "./Navigation";
 import Home from "../routes/Home";
-import Percentage from "../routes/Percentage";
 import React from "react";
 import InfiniteScroll from "../routes/InfiniteScroll";
 import MotionGraphic from "../routes/MotionGraphic";
@@ -14,13 +13,10 @@ function Router() {
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/a">
-                    <Percentage />
-                </Route>
-                <Route path="/b">
+                <Route path="/sky">
                     <InfiniteScroll />
                 </Route>
-                <Route path="/c">
+                <Route path="/ocean">
                     <MotionGraphic />
                 </Route>
             </Switch>
