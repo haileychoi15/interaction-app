@@ -2,11 +2,15 @@ import React, {useCallback, useEffect, useState} from "react";
 import styled, {css} from "styled-components";
 import {useEventListener} from "../hooks/useEventListener";
 import Progress from "../components/Progress";
+import SectionOne from "../components/SectionOne";
+import SectionTwo from "../components/SectionTwo";
+import SectionThree from "../components/SectionThree";
+import SectionFour from "../components/SectionFour";
+import SectionFive from "../components/SectionFive";
 
-const Section = styled.section`
+const Container = styled.div`
   position: relative;
   width: 100vw;
-  height: 6000px;
 `;
 
 const Title = styled.h1`
@@ -24,7 +28,7 @@ const Background = styled.div`
   width: 100%;
   height: 100%;
   z-index: -1;
-  transition: all 500ms linear;
+  transition: all 1s linear;
   ${prop => prop.color && css`
     background-color: ${prop.color};
   `}
@@ -81,14 +85,16 @@ function MotionGraphic() {
     const changeBackground = (scrollPercent) => {
         if (scrollPercent < 10) {
             setColor('#b3e5fc');
-        } else if (scrollPercent < 25) {
+        } else if (scrollPercent < 20) {
             setColor('#81daf4');
-        } else if (scrollPercent < 50) {
+        } else if (scrollPercent < 40) {
             setColor('#29b6f6');
-        } else if (scrollPercent < 75) {
+        } else if (scrollPercent < 60) {
             setColor('#0288d1');
-        } else {
+        } else if (scrollPercent < 80) {
             setColor('#01579b');
+        } else {
+            setColor('#003865');
         }
     }
 
@@ -112,14 +118,19 @@ function MotionGraphic() {
 
     return (
         <>
-            <Section>
+            <Container>
                 <Progress percent={percent} />
                 <Title>Motion graphic</Title>
                 <Background color={color}></Background>
                 <DiverBlock isScrolling={isScrolling}>
-                    <Image src={`${process.env.PUBLIC_URL}/diver.png`} alt="diver" />
+                    <Image src={`${process.env.PUBLIC_URL}/images/diver.png`} alt="diver" />
                 </DiverBlock>
-            </Section>
+                <SectionOne height="200vh" />
+                <SectionTwo height="200vh" />
+                <SectionThree height="200vh" />
+                <SectionFour height="200vh" />
+                <SectionFive height="200vh" />
+            </Container>
         </>
     );
 }
