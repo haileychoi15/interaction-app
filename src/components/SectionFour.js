@@ -28,7 +28,7 @@ function SectionFour({ height }) {
             style: {
                 top: 0,
                 right: "10%",
-                width: "400px"
+                width: "200px"
             }
         },
         {
@@ -37,25 +37,34 @@ function SectionFour({ height }) {
             style: {
                 top: "20%",
                 right: "10%",
-                width: "200px"
+                width: "400px"
             }
         },
         {
             title: "red fishes",
             url: "redfishes3.png",
             style: {
-                top: "30%",
+                top: "40%",
                 right: "15%",
                 width: "300px"
             }
         },
         {
             title: "yellow fishes",
-            url: "yellowfishes.png",
+            url: "yellowfishes1.png",
             style: {
                 bottom: "30%",
                 left: "10%",
                 width: "100px"
+            }
+        },
+        {
+            title: "yellow fishes",
+            url: "yellowfishes2.png",
+            style: {
+                bottom: "50%",
+                left: "10%",
+                width: "150px"
             }
         },
     ]

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import styled, {css} from "styled-components";
 import {useEventListener} from "../hooks/useEventListener";
 import Progress from "../components/Progress";
@@ -29,9 +29,9 @@ const Background = styled.div`
   height: 100%;
   z-index: -1;
   transition: all 1s linear;
-  ${prop => prop.color && css`
+/*  ${prop => prop.color && css`
     background-color: ${prop.color};
-  `}
+  `}*/
 `;
 
 const DiverBlock = styled.div`
@@ -74,47 +74,88 @@ function MotionGraphic() {
     const [percent, setPercent] = useState(0);
     const [color, setColor] = useState('#b3e5fc');
     const [isScrolling, setIsScrolling] = useState(false);
+    const [isTurning, setIsTurning] = useState(false);
+    const [isActive, setIsActive] = useState(true);
+    const firstSection = useRef();
+    const sectionTop = useRef(0);
+    const sectionHeight = useRef(0);
+    const sectionBottom = useRef(0);
 
-    const detectScrolling = useCallback((prevScrollY) => {
+    const setScrollState = useCallback((prevScrollY) => {
         setTimeout(() => {
             const currScrollY = window.pageYOffset;
             (prevScrollY === currScrollY) ? setIsScrolling(false) : setIsScrolling(true);
         }, 200);
     }, []);
 
-    const changeBackground = (scrollPercent) => {
-        if (scrollPercent < 10) {
+    const getScrollPercent = useCallback((scrollY) => {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = Math.floor((scrollY / scrollHeight) * 1000) / 10;
+        setPercent(scrollPercent);
+    }, []);
+
+    const changeBackground = useCallback(() => {
+        if (percent < 10) {
             setColor('#b3e5fc');
-        } else if (scrollPercent < 20) {
+        } else if (percent < 20) {
             setColor('#81daf4');
-        } else if (scrollPercent < 40) {
+        } else if (percent < 40) {
             setColor('#29b6f6');
-        } else if (scrollPercent < 60) {
+        } else if (percent < 60) {
             setColor('#0288d1');
-        } else if (scrollPercent < 80) {
+        } else if (percent < 80) {
             setColor('#01579b');
         } else {
             setColor('#003865');
         }
-    }
+    }, [percent]);
 
-    const handleScrolling = useCallback(() => {
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollY = window.pageYOffset;
-        const scrollPercent = Math.floor((scrollY / scrollHeight) * 1000) / 10;
-        setPercent(scrollPercent);
-        changeBackground(scrollPercent);
-        detectScrolling(scrollY);
-    }, [detectScrolling]);
-
-    const init = useCallback(() => {
-
+    const detectScrolling = useCallback((isPrevActive) => {
+        const secOffsetTop = firstSection.current.getBoundingClientRect().top;
+        if (isPrevActive && Math.abs(secOffsetTop) >= sectionHeight.current)
+            setIsTurning(false);
+        else if (!isPrevActive && secOffsetTop === sectionTop.current)
+            setIsTurning(false);
+        else
+            window.requestAnimationFrame(() => detectScrolling(isPrevActive));
     }, []);
 
+    const turnSection = useCallback(() => {
+        console.log(isActive);
+        const isPrevActive = isActive;
+        window.scroll({
+            top: isPrevActive ? sectionBottom.current : sectionTop.current,
+            behavior: 'smooth'
+        });
+        window.requestAnimationFrame(() => detectScrolling(isPrevActive));
+        setIsActive(!isPrevActive);
+    }, [isActive, detectScrolling]);
+
+    const detectSection = useCallback((scrollY) => {
+        const { current } = firstSection;
+        sectionTop.current = current.offsetTop;
+        sectionHeight.current = current.offsetHeight;
+        sectionBottom.current = sectionTop.current + sectionHeight.current;
+        if (sectionTop.current < scrollY && scrollY < sectionBottom.current) {
+            if (!isTurning) {
+                setIsTurning(true);
+                turnSection();
+            }
+        }
+    }, [isTurning, turnSection]);
+
+    const handleScrolling = useCallback(() => {
+        const scrollY = window.pageYOffset;
+        getScrollPercent(scrollY);
+        changeBackground();
+
+        detectSection(scrollY);
+
+        const prevScrollY = scrollY;
+        setScrollState(prevScrollY);
+    }, [getScrollPercent, changeBackground, setScrollState, detectSection]);
+
     useEventListener(window, "scroll", handleScrolling);
-    useEffect(() => {
-        init();
-    }, [init]);
 
     return (
         <>
@@ -125,9 +166,9 @@ function MotionGraphic() {
                 <DiverBlock isScrolling={isScrolling}>
                     <Image src={`${process.env.PUBLIC_URL}/images/diver.png`} alt="diver" />
                 </DiverBlock>
-                <SectionOne height="200vh" />
-                <SectionTwo height="200vh" />
-                <SectionThree height="200vh" />
+                <SectionOne firstSection={firstSection} height="100vh" />
+                <SectionTwo height="100vh" />
+                <SectionThree height="100vh" />
                 <SectionFour height="200vh" />
                 <SectionFive height="200vh" />
             </Container>

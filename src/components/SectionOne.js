@@ -9,10 +9,21 @@ const SectionBlock = styled.div`
   `}
 `;
 
-function SectionOne({ height }) {
+const Fixed = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: lightgoldenrodyellow;
+  z-index: -10;
+`;
+
+function SectionOne({ firstSection, height }) {
     return (
-        <SectionBlock height={height}>
-            <div>section1</div>
+        <SectionBlock ref={firstSection} height={height}>
+            <Fixed>
+                <h1>section1</h1>
+
+            </Fixed>
         </SectionBlock>
     );
 }
