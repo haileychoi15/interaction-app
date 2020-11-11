@@ -3,6 +3,7 @@ import styled, {css} from "styled-components";
 
 const SectionBlock = styled.div`
   width: 100%;
+  height: 100%;
   background: none;
   ${prop => prop.height && css`
     height: ${prop.height};

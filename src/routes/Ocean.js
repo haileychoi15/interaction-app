@@ -69,7 +69,7 @@ const Image = styled.img`
   height: 100%;
 `;
 
-function MotionGraphic() {
+function Ocean() {
 
     const [percent, setPercent] = useState(0);
     const [color, setColor] = useState('#b3e5fc');
@@ -176,4 +176,4 @@ function MotionGraphic() {
     );
 }
 
-export default MotionGraphic;
+export default Ocean;

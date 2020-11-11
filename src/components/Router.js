@@ -3,7 +3,7 @@ import Navigation from "./Navigation";
 import Home from "../routes/Home";
 import React from "react";
 import InfiniteScroll from "../routes/InfiniteScroll";
-import MotionGraphic from "../routes/MotionGraphic";
+import Ocean from "../routes/Ocean";
 
 function Router() {
     return (
@@ -17,7 +17,7 @@ function Router() {
                     <InfiniteScroll />
                 </Route>
                 <Route path="/ocean">
-                    <MotionGraphic />
+                    <Ocean />
                 </Route>
             </Switch>
         </HashRouter>
