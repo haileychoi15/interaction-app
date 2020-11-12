@@ -1,33 +1,26 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled, {css} from "styled-components";
+import ParallaxImage from "../components/ParallaxImage";
+import {useEventListener} from "../hooks/useEventListener";
 
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
-  background: none;
+  background: green;
   ${prop => prop.height && css`
     height: ${prop.height};
   `}
 `;
 
-const FishImages = styled.div`
-  position: absolute;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
-function SectionThree({ height }) {
+function SectionThree({ height, secondSection }) {
     const initialImages = [
         {
             title: "blue fishes",
             url: "bluefishes1.png",
             style: {
-                top: 0,
+                top: "10%",
                 right: "10%",
-                width: "200px"
+                width: "100px",
             }
         },
         {
@@ -36,7 +29,7 @@ function SectionThree({ height }) {
             style: {
                 top: "20%",
                 right: "10%",
-                width: "100px"
+                width: "100px",
             }
         },
         {
@@ -45,7 +38,7 @@ function SectionThree({ height }) {
             style: {
                 top: "40%",
                 right: "15%",
-                width: "300px"
+                width: "300px",
             }
         },
         {
@@ -54,7 +47,7 @@ function SectionThree({ height }) {
             style: {
                 bottom: "30%",
                 left: "10%",
-                width: "100px"
+                width: "100px",
             }
         },
         {
@@ -63,17 +56,42 @@ function SectionThree({ height }) {
             style: {
                 bottom: "50%",
                 left: "10%",
-                width: "150px"
+                width: "150px",
             }
         },
     ]
     const [images, setImages] = useState(initialImages);
+    const parallaxBody = useRef(null);
+    const parallaxSpeed = useRef(1200);
+    const parallaxStartValue = useRef(200);
+
+    const moveParallaxImage = (parallaxDistance) => {
+        setImages(
+            images.map((image, index) => {
+                return {...image, style: {...image.style, transform: parallaxDistance * index }};
+            })
+        );
+    }
+
+    const handleScroll = () => {
+        const parallaxTop = parallaxBody.current.offsetTop;
+        const parallaxScrollY = window.scrollY - parallaxTop;
+        const { current : value } = parallaxStartValue;
+        const parallaxPercent = parallaxScrollY / parallaxSpeed.current * 100;
+        const parallaxDistance = Math.max(0, Math.min(value, value - (value * (parallaxPercent / 100))));
+        moveParallaxImage(parallaxDistance);
+    }
+
+    useEventListener(window, "scroll", handleScroll);
+    useEffect(() => {
+        parallaxBody.current = secondSection.current;
+    }, []);
+
+
     return (
         <SectionBlock height={height}>
             {images.map((image, index) =>
-                <FishImages key={index} style={{...image.style}}>
-                    <Image src={`${process.env.PUBLIC_URL}/images/${image.url}`} alt={image.title} />
-                </FishImages>
+                <ParallaxImage key={index} image={image} />
             )}
         </SectionBlock>
     );

@@ -81,6 +81,8 @@ function Ocean() {
     const sectionHeight = useRef(0);
     const sectionBottom = useRef(0);
 
+    const secondSection = useRef();
+
     const setScrollState = useCallback((prevScrollY) => {
         setTimeout(() => {
             const currScrollY = window.pageYOffset;
@@ -121,7 +123,6 @@ function Ocean() {
     }, []);
 
     const turnSection = useCallback(() => {
-        console.log(isActive);
         const isPrevActive = isActive;
         window.scroll({
             top: isPrevActive ? sectionBottom.current : sectionTop.current,
@@ -167,8 +168,8 @@ function Ocean() {
                     <Image src={`${process.env.PUBLIC_URL}/images/diver.png`} alt="diver" />
                 </DiverBlock>
                 <SectionOne firstSection={firstSection} height="100vh" />
-                <SectionTwo height="100vh" />
-                <SectionThree height="100vh" />
+                <SectionTwo secondSection={secondSection} height="100vh" />
+                <SectionThree secondSection={secondSection} height="100vh" />
                 <SectionFour height="200vh" />
                 <SectionFive height="200vh" />
             </Container>
