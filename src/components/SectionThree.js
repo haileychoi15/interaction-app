@@ -6,7 +6,6 @@ import {useEventListener} from "../hooks/useEventListener";
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
-  background: green;
   ${prop => prop.height && css`
     height: ${prop.height};
   `}
@@ -61,9 +60,9 @@ function SectionThree({ height, secondSection }) {
         },
     ]
     const [images, setImages] = useState(initialImages);
-    const parallaxBody = useRef(null);
+    const parallaxSection = useRef(null);
     const parallaxSpeed = useRef(1200);
-    const parallaxStartValue = useRef(200);
+    const parallaxDefaultValue = useRef(200);
 
     const moveParallaxImage = (parallaxDistance) => {
         setImages(
@@ -74,19 +73,21 @@ function SectionThree({ height, secondSection }) {
     }
 
     const handleScroll = () => {
-        const parallaxTop = parallaxBody.current.offsetTop;
+        const parallaxTop = parallaxSection.current.offsetTop;
         const parallaxScrollY = window.scrollY - parallaxTop;
-        const { current : value } = parallaxStartValue;
-        const parallaxPercent = parallaxScrollY / parallaxSpeed.current * 100;
-        const parallaxDistance = Math.max(0, Math.min(value, value - (value * (parallaxPercent / 100))));
-        moveParallaxImage(parallaxDistance);
+        const { current : speed } = parallaxSpeed;
+        const { current : value } = parallaxDefaultValue;
+        const parallaxPercent = parallaxScrollY / speed * 100;
+        const parallaxDistance = value - (value * (parallaxPercent / 100));
+        if (0 <= parallaxDistance && parallaxDistance <= value){
+            moveParallaxImage(parallaxDistance);
+        }
     }
 
     useEventListener(window, "scroll", handleScroll);
     useEffect(() => {
-        parallaxBody.current = secondSection.current;
-    }, []);
-
+        parallaxSection.current = secondSection.current;
+    }, [secondSection]);
 
     return (
         <SectionBlock height={height}>

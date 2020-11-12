@@ -1,6 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
 import styled, {css} from "styled-components";
-import {useEventListener} from "../hooks/useEventListener";
 
 const SectionBlock = styled.div`
   width: 100%;
