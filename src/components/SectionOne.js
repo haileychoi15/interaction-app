@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import styled, {css} from "styled-components";
 
 const SectionBlock = styled.div`
@@ -15,7 +15,7 @@ const Fixed = styled.div`
   width: 100%;
   height: 100vh;
   background: lightgoldenrodyellow;
-  z-index: -10;
+  z-index: 100;
 `;
 
 const Title = styled.div`
@@ -87,8 +87,6 @@ const CountBlock = styled.div`
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 2px #333;
   transition: transform 1s ease-in-out;
-  font-size: 4rem;
-  font-weight: 600;
 `;
 
 const CountTitle = styled.div`
@@ -98,18 +96,25 @@ const CountTitle = styled.div`
 `;
 
 const CountNumber = styled.div`
-  height: 200px;
+  height: 74px;
+  font-size: 4rem;
+  font-weight: 600;
   color: #333;
   opacity: 1;
   transition: opacity 500ms 1000ms;
-  &.active {
-    opacity: 1;
+  overflow: hidden;
+  & .each_number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  .count_box {
+`;
+
+const ColumnBox = styled.span`
     display: inline-flex;
     flex-direction: column;
     animation-name: roll_number;
-    animation-duration: 3000ms;
+    animation-duration: 2000ms;
     animation-delay: 1000ms;
     animation-timing-function: ease-out;
     animation-fill-mode: both;
@@ -118,27 +123,14 @@ const CountNumber = styled.div`
       animation-play-state: running;
     }
     @keyframes roll_number {
-    0% {
-      transform: translateY(-4800px);
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: ${props => `translateY(-${props.rollingCount * 74}px)`};
+        }
     }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  }
 `;
-
-const Table = styled.div`
-  display: table;
-  width: 100%;
-  height: 100%;
-`;
-
-const Row = styled.div`
-  display: table-cell;
-  vertical-align: middle;
-`;
-
 
 function SectionOne({ firstSection, height }) {
     const initialTexts = [
@@ -153,47 +145,53 @@ function SectionOne({ firstSection, height }) {
         },
     ];
 
-    const countNumber = useRef();
+    const today = new Date();
+    const initialNumbers = `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`.split("");
+    const numbersRef = useRef(initialNumbers);
+    const columnBoxRefs = useRef([]);
     const rollingCount = useRef(24);
 
-    const rollNumbers = (index, countBox) => {
+    columnBoxRefs.current = numbersRef.current.map(
+        (ref, index) => columnBoxRefs.current[index] = React.createRef()
+    );
+
+    const rollNumbers = useCallback((countBox, index) => {
         setTimeout(() => {
             countBox.classList.add('active');
-        }, 300 * index);
-    }
+        }, 150 * index);
+    }, []);
 
-    const createRollingNumbers = (numbers) => {
+    const createRollingNumbers = useCallback((numbers) => {
+        let countBox = null;
         numbers.forEach((number, index) => {
-            const countBox = document.createElement("span");
-            countBox.className = "count_box";
-            console.log(countBox);
+
+            countBox = columnBoxRefs.current[index].current;
             let counts = [];
             let count = Number(number);
 
             for (let i = 0; i <= rollingCount.current; i++) {
                 const sum = count + i;
-                const num = sum >= 10 ? String(sum).slice(1) : sum;
+                const num = sum >= 10 ? Number(String(sum).slice(1)) : sum;
                 counts.push(num);
             }
+            counts.reverse();
 
-            counts.forEach((count, index) => {
-                const span = document.createElement("span");
+            let span = null;
+            counts.forEach((count) => {
+                span = document.createElement("span");
+                span.className = "each_number";
                 const node = document.createTextNode(count);
                 span.append(node);
-
                 countBox.appendChild(span);
             });
-
-            countNumber.current.appendChild(countBox);
-            rollNumbers(index, countBox);
+            rollNumbers(countBox, index);
         });
-    }
+    }, [rollingCount, rollNumbers]);
 
     useEffect(() => {
-        const today = new Date();
-        const numbers = `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`.split("");
+        const { current: numbers } = numbersRef;
         createRollingNumbers(numbers);
-    }, []);
+    }, [createRollingNumbers]);
 
     return (
         <SectionBlock ref={firstSection} height={height}>
@@ -211,12 +209,17 @@ function SectionOne({ firstSection, height }) {
                 </ul>
                 <div>
                     <CountBlock>
-                        <Table>
-                            <Row>
-                                <CountTitle>today</CountTitle>
-                                <CountNumber ref={countNumber}></CountNumber>
-                            </Row>
-                        </Table>
+                        <CountTitle>today</CountTitle>
+                        <CountNumber>
+                            {numbersRef.current.map((number, index) =>
+                                <ColumnBox
+                                    key={index}
+                                    ref={columnBoxRefs.current[index]}
+                                    rollingCount={rollingCount.current}
+                                    className="count_box">
+                                </ColumnBox>
+                            )}
+                        </CountNumber>
                     </CountBlock>
                 </div>
             </Fixed>
