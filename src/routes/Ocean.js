@@ -27,18 +27,18 @@ const Background = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
   transition: all 1s linear;
 /*  ${prop => prop.color && css`
     background-color: ${prop.color};
   `}*/
 `;
 
-const DiverBlock = styled.div`
-  position: fixed;
-  top: 15%;
+const DiverImage = styled.div`
+  position: sticky;
+  top: 20%;
   left: 10%;
   width: 13rem;
+  z-index: 1;
   animation-name: moveDiver;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -69,6 +69,10 @@ const Image = styled.img`
   height: 100%;
 `;
 
+const StickyBlock = styled.div`
+  
+`;
+
 function Ocean() {
 
     const [percent, setPercent] = useState(0);
@@ -82,6 +86,7 @@ function Ocean() {
     const sectionBottom = useRef(0);
 
     const secondSection = useRef();
+    const fourthSection = useRef();
 
     const setScrollState = useCallback((prevScrollY) => {
         setTimeout(() => {
@@ -164,14 +169,16 @@ function Ocean() {
                 <Progress percent={percent} />
                 <Title>Motion graphic</Title>
                 <Background color={color}></Background>
-                <DiverBlock isScrolling={isScrolling}>
-                    <Image src={`${process.env.PUBLIC_URL}/images/diver.png`} alt="diver" />
-                </DiverBlock>
                 <SectionOne firstSection={firstSection} height="100vh" />
                 <SectionTwo secondSection={secondSection} height="100vh" />
-                <SectionThree secondSection={secondSection} height="100vh" />
-                <SectionFour height="200vh" />
-                <SectionFive height="200vh" />
+                <StickyBlock>
+                    <DiverImage isScrolling={isScrolling}>
+                        <Image src={`${process.env.PUBLIC_URL}/images/diver.png`} alt="diver" />
+                    </DiverImage>
+                    <SectionThree secondSection={secondSection} height="200vh" />
+                    <SectionFour fourthSection={fourthSection} height="200vh" />
+                    <SectionFive fourthSection={fourthSection} height="200vh" />
+                </StickyBlock>
             </Container>
         </>
     );

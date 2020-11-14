@@ -15,7 +15,6 @@ const Fixed = styled.div`
   position: fixed;
   width: 100%;
   height: 100vh;
-  background: lightgoldenrodyellow;
   z-index: -10;
 `;
 
@@ -32,7 +31,6 @@ const TextBlock = styled.div`
 const Text = styled.p`
   font-size: 3rem;
   font-weight: 600;
-  z-index: 20;
   animation-name: text_opacity;
   animation-duration: 1500ms;
   animation-delay: 200ms;
@@ -63,7 +61,6 @@ const Mask = styled.span`
   left: 0;
   height: 100%;
   background: #333;
-  z-index: 10;
   animation-name: text_mask;
   animation-duration: 1500ms;
   animation-timing-function: ease-out;

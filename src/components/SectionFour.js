@@ -20,7 +20,7 @@ const Image = styled.img`
   height: 100%;
 `;
 
-function SectionFour({ height }) {
+function SectionFour({ fourthSection, height }) {
     const initialImages = [
         {
             title: "red fishes",
@@ -70,7 +70,7 @@ function SectionFour({ height }) {
     ]
     const [images, setImages] = useState(initialImages);
     return (
-        <SectionBlock height={height}>
+        <SectionBlock ref={fourthSection} height={height}>
             {images.map((image, index) =>
                 <FishImages key={index} style={{...image.style}}>
                     <Image src={`${process.env.PUBLIC_URL}/images/${image.url}`} alt={image.title} />

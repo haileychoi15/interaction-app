@@ -2,11 +2,28 @@ import React, {useEffect, useRef, useState} from "react";
 import styled, {css} from "styled-components";
 
 const SectionBlock = styled.div`
+  position: relative;
   width: 100%;
-  //background: orange;
+  background-color: rgb(66, 155, 210);
   ${prop => prop.height && css`
     height: ${prop.height};
   `}
+`;
+
+const WaveImage = styled.div`
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 200%;
+  overflow: hidden;
+  @media screen and (min-width: 48rem) {
+    width: 100%;
+  }
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100px;
 `;
 
 const Canvas = styled.canvas`
@@ -16,7 +33,8 @@ const Canvas = styled.canvas`
 `;
 
 function SectionTwo({ height, secondSection }) {
-    const canvasRef = useRef();
+
+/*    const canvasRef = useRef();
     const canvasWidth = useRef(0);
     const canvasHeight = useRef(0);
     const centerX = useRef(0);
@@ -61,11 +79,14 @@ function SectionTwo({ height, secondSection }) {
     useEffect(() => {
         ctx.current.arc(centerX.current, pointY, 30, 0, Math.PI * 2);
         ctx.current.fill();
-    }, [pointY]);
+    }, [pointY]);*/
 
     return (
         <SectionBlock ref={secondSection} height={height} className="section">
-            <Canvas ref={canvasRef} className="canvas"></Canvas>
+            {/*<Canvas ref={canvasRef} className="canvas"></Canvas>*/}
+            <WaveImage>
+                <Image src={`${process.env.PUBLIC_URL}/images/waves.png`} alt="waves"/>
+            </WaveImage>
         </SectionBlock>
     );
 }
