@@ -15,7 +15,7 @@ const Fixed = styled.div`
   width: 100%;
   height: 100vh;
   background: lightgoldenrodyellow;
-  z-index: 100;
+  z-index: -10;
 `;
 
 const Title = styled.div`
@@ -103,11 +103,6 @@ const CountNumber = styled.div`
   opacity: 1;
   transition: opacity 500ms 1000ms;
   overflow: hidden;
-  & .each_number {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 `;
 
 const ColumnBox = styled.span`
@@ -147,6 +142,7 @@ function SectionOne({ firstSection, height }) {
 
     const today = new Date();
     const initialNumbers = `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`.split("");
+
     const numbersRef = useRef(initialNumbers);
     const columnBoxRefs = useRef([]);
     const rollingCount = useRef(24);
@@ -179,7 +175,6 @@ function SectionOne({ firstSection, height }) {
             let span = null;
             counts.forEach((count) => {
                 span = document.createElement("span");
-                span.className = "each_number";
                 const node = document.createTextNode(count);
                 span.append(node);
                 countBox.appendChild(span);
