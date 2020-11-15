@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import styled, {css} from "styled-components";
 import {useEventListener} from "../hooks/useEventListener";
 import Progress from "../components/Progress";
@@ -75,6 +75,7 @@ const StickyBlock = styled.div`
 
 function Ocean() {
 
+    const [scrollY, setScrollY] = useState(0);
     const [percent, setPercent] = useState(0);
     const [color, setColor] = useState('#b3e5fc');
     const [isScrolling, setIsScrolling] = useState(false);
@@ -92,7 +93,7 @@ function Ocean() {
         setTimeout(() => {
             const currScrollY = window.pageYOffset;
             (prevScrollY === currScrollY) ? setIsScrolling(false) : setIsScrolling(true);
-        }, 200);
+        }, 100);
     }, []);
 
     const getScrollPercent = useCallback((scrollY) => {
@@ -151,15 +152,17 @@ function Ocean() {
     }, [isTurning, turnSection]);
 
     const handleScrolling = useCallback(() => {
-        const scrollY = window.pageYOffset;
-        getScrollPercent(scrollY);
+        const y = window.pageYOffset;
+        setScrollY(y);
         changeBackground();
-
-        detectSection(scrollY);
-
-        const prevScrollY = scrollY;
+        detectSection(y);
+        const prevScrollY = y;
         setScrollState(prevScrollY);
     }, [getScrollPercent, changeBackground, setScrollState, detectSection]);
+
+    useEffect(() => {
+        getScrollPercent(scrollY);
+    }, [scrollY]);
 
     useEventListener(window, "scroll", handleScrolling);
 
@@ -177,7 +180,7 @@ function Ocean() {
                     </DiverImage>
                     <SectionThree secondSection={secondSection} height="200vh" />
                     <SectionFour fourthSection={fourthSection} height="200vh" />
-                    <SectionFive fourthSection={fourthSection} height="200vh" />
+                    <SectionFive height="200vh" />
                 </StickyBlock>
             </Container>
         </>

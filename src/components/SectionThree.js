@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled, {css} from "styled-components";
-import ParallaxImage from "../components/ParallaxImage";
 import {useEventListener} from "../hooks/useEventListener";
 
 const SectionBlock = styled.div`
@@ -91,9 +90,7 @@ function SectionThree({ height, secondSection }) {
 
     return (
         <SectionBlock height={height}>
-            {images.map((image, index) =>
-                <ParallaxImage key={index} image={image} />
-            )}
+            section4
         </SectionBlock>
     );
 }

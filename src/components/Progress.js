@@ -6,6 +6,7 @@ const ProgressContainer = styled.div`
   top: 50%;
   right: 5%;
   transform: translateY(-50%);
+  z-index: 1;
 `;
 
 const ProgressBlock = styled.div`

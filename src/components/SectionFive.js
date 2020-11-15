@@ -1,10 +1,13 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useRef, useState} from "react";
 import styled, {css} from "styled-components";
+import ParallaxImages from "./ParallaxImages";
+import {useParallax} from "../hooks/useParallax";
 
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
   background-color: lightskyblue;
+  z-index: 0;
   ${prop => prop.height && css`
     height: ${prop.height};
   `}
@@ -29,75 +32,78 @@ const Image = styled.img`
   height: 200px;
 `;
 
-const Items = styled.div`
+const ParallaxBlock = styled.div`
   width: 100%;
-  height: 900px;
-  font-size: 2rem;
+  height: 100%;
 `;
 
-const Item = styled.div` 
-  position: absolute;
-  color: red;
-  &:nth-child(1) {
-    top: 0;
-    transform: ${props => `translateY(${props.y * 0.1}px)`};
-    z-index: 1000;
-  }
-  &:nth-child(2) {
-    top: 10%;
-    z-index: 2000;
-  }
-  &:nth-child(3) {
-    top: 30%;
-    transform: ${props => `translateY(${props.y * 0.1}px)`};
-    z-index: 3000;
-  }
-  &:nth-child(4) {
-    top: 40%;
-    z-index: 4000;
-  }
-  &.parallax {
-    //position: fixed;
-  }
-`;
+function SectionFive({ height }) {
 
-function SectionFive({ height, fourthSection }) {
+    const images = [
+        {
+            title: "blue fishes",
+            url: "bluefishes1.png",
+            style: {
+                top: "10%",
+                right: "10%",
+                width: "100px",
+            },
+            speed: 0.2
+        },
+        {
+            title: "blue fishes",
+            url: "bluefishes3.png",
+            style: {
+                top: "20%",
+                right: "15%",
+                width: "300px",
+            },
+            speed: 0
+        },
+        {
+            title: "white fishes",
+            url: "whitefishes1.png",
+            style: {
+                bottom: "30%",
+                left: "10%",
+                width: "100px",
+            },
+            speed: -0.2
+        },
+        {
+            title: "white fishes",
+            url: "whitefishes2.png",
+            style: {
+                bottom: "50%",
+                left: "20%",
+                width: "150px",
+            },
+            speed: 0.1
+        },
+    ]
+
     const fifthSection = useRef();
+    //const imageRefs = useRef();
     const [scrollY, setScrollY] = useState(0);
 
     const handleScroll = () => {
+        console.log('실행');
         const sectionHeight = fifthSection.current.offsetTop - window.innerHeight;
         const y = window.scrollY - sectionHeight;
-        console.log(y);
         setScrollY(y);
     }
 
-    const observer = new IntersectionObserver(entries => {
-        if(entries[0].intersectionRatio > 0) {
-            console.log('is Intersecting');
-            window.addEventListener('scroll', handleScroll);
-        } else {
-            console.log('NOT Intersecting');
-            window.removeEventListener('scroll', handleScroll);
-        }
-    }, { threshold: 0 });
-
-    useEffect(() => {
-        const items = document.querySelectorAll(".item");
-        items.forEach(item => observer.observe(item));
-    }, []);
+    const items = document.querySelectorAll(".items");
+    useParallax(items, handleScroll);
 
     return (
         <SectionBlock height={height} ref={fifthSection}>
             <SandImage>
                 <Image src={`${process.env.PUBLIC_URL}/images/bottomsand.png`} alt="waves"/>
             </SandImage>
-            <Items>
-                <Item className="item parallax" y={scrollY}>section5</Item>
-                <Item className="item parallax" y={scrollY}>fishes</Item>
-                <Item className="item parallax" y={scrollY}>HELLO WORLD</Item>
-                <Item className="item" y={scrollY}>안녕</Item>
-            </Items>
+            <ParallaxBlock className="items">
+                <ParallaxImages images={images} scrollY={scrollY} />
+            </ParallaxBlock>
         </SectionBlock>
     );
 }
