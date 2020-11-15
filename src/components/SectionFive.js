@@ -1,4 +1,4 @@
-import React, { useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import styled, {css} from "styled-components";
 import ParallaxImages from "./ParallaxImages";
 import {useParallax} from "../hooks/useParallax";
@@ -83,25 +83,23 @@ function SectionFive({ height }) {
     ]
 
     const fifthSection = useRef();
-    //const imageRefs = useRef();
+    const parallaxBlock = useRef();
     const [scrollY, setScrollY] = useState(0);
 
     const handleScroll = () => {
-        console.log('실행');
         const sectionHeight = fifthSection.current.offsetTop - window.innerHeight;
         const y = window.scrollY - sectionHeight;
         setScrollY(y);
     }
 
-    const items = document.querySelectorAll(".items");
-    useParallax(items, handleScroll);
+    useParallax(parallaxBlock, handleScroll, { threshold: 0 });
 
     return (
         <SectionBlock height={height} ref={fifthSection}>
             <SandImage>
                 <Image src={`${process.env.PUBLIC_URL}/images/bottomsand.png`} alt="waves"/>
             </SandImage>
-            <ParallaxBlock className="items">
+            <ParallaxBlock ref={parallaxBlock} className="items">
                 <ParallaxImages images={images} scrollY={scrollY} />
             </ParallaxBlock>
         </SectionBlock>

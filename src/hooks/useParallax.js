@@ -1,28 +1,18 @@
 import {useEffect} from "react";
 
-export const useParallax = (targets, handler) => {
+export const useParallax = (target, handler, options) => {
     useEffect(() => {
+        const { current } = target;
         const observer = new IntersectionObserver(entries => {
-            if(entries[0].intersectionRatio > 0) {
-                console.log('intersecting');
-                window.addEventListener('scroll', handler);
+            const [{ isIntersecting }] = entries;
+            if(isIntersecting) {
+                window.addEventListener('scroll', handler, { capture: false, passive: true });
             } else {
-                console.log('NoT intersecting');
-                window.removeEventListener('scroll', handler);
+                window.removeEventListener('scroll', handler, { capture: false, passive: true });
             }
-            /*entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    console.log('intersecting');
-                    window.addEventListener('scroll', handler);
-                } else {
-                    console.log('NoT intersecting');
-                    window.removeEventListener('scroll', handler);
-                }
-            });*/
-        }, { threshold: 0 });
+        }, options);
 
-        targets.forEach(target => observer.observe(target));
-
-        return () => targets.forEach(target => observer.unobserve(target));
-    }, [targets, handler]);
+        observer.observe(current);
+        return () => observer.unobserve(current);
+    }, []);
 }
