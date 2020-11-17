@@ -1,5 +1,7 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import styled, {css} from "styled-components";
+import ParallaxImages from "./ParallaxImages";
+import {useParallax} from "../hooks/useParallax";
 
 const SectionBlock = styled.div`
   position: relative;
@@ -10,72 +12,92 @@ const SectionBlock = styled.div`
   `}
 `;
 
-const FishImages = styled.div`
-  position: absolute;
-  transform: rotate(-10deg);
-`;
-
-const Image = styled.img`
+const ParallaxBlock = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-function SectionFour({ fourthSection, height }) {
-    const initialImages = [
+function SectionFour({ height }) {
+    const images = [
         {
             title: "red fishes",
             url: "redfishes1.png",
             style: {
                 top: 0,
                 right: "10%",
-                width: "200px"
-            }
+                width: "150px"
+            },
+            speed: 0.1
+        },
+        {
+            title: "red fishes",
+            url: "redfishes3.png",
+            style: {
+                top: "10%",
+                right: "15%",
+                width: "150px"
+            },
+            speed: -0.1
         },
         {
             title: "red fishes",
             url: "redfishes2.png",
             style: {
                 top: "20%",
-                right: "10%",
-                width: "400px"
-            }
+                right: "15%",
+                width: "120px"
+            },
+            speed: 0
         },
         {
-            title: "red fishes",
-            url: "redfishes3.png",
+            title: "orange fishes",
+            url: "orangefishes2.png",
             style: {
                 top: "40%",
-                right: "15%",
-                width: "300px"
-            }
+                right: "10%",
+                width: "100px"
+            },
+            speed: 0
         },
         {
-            title: "yellow fishes",
-            url: "yellowfishes1.png",
+            title: "orange fishes",
+            url: "orangefishes1.png",
             style: {
                 bottom: "30%",
                 left: "10%",
                 width: "100px"
-            }
+            },
+            speed: 0
         },
         {
-            title: "yellow fishes",
-            url: "yellowfishes2.png",
+            title: "white fishes",
+            url: "whitefishes2.png",
             style: {
-                bottom: "50%",
+                bottom: "0",
                 left: "10%",
-                width: "150px"
-            }
+                width: "200px"
+            },
+            speed: -0.1
         },
     ]
-    const [images, setImages] = useState(initialImages);
+
+    const fourthSection = useRef();
+    const parallaxBlock = useRef();
+    const [scrollY, setScrollY] = useState(0);
+
+    const handleScroll = () => {
+        const sectionHeight = fourthSection.current.offsetTop - window.innerHeight;
+        const y = window.scrollY - sectionHeight;
+        setScrollY(y);
+    }
+
+    useParallax(parallaxBlock, handleScroll, { threshold: 0 });
+
     return (
         <SectionBlock ref={fourthSection} height={height}>
-            {images.map((image, index) =>
-                <FishImages key={index} style={{...image.style}}>
-                    <Image src={`${process.env.PUBLIC_URL}/images/${image.url}`} alt={image.title} />
-                </FishImages>
-            )}
+            <ParallaxBlock ref={parallaxBlock} className="items">
+                <ParallaxImages images={images} scrollY={scrollY} />
+            </ParallaxBlock>
         </SectionBlock>
     );
 }

@@ -1,43 +1,53 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import styled, {css} from "styled-components";
-import {useEventListener} from "../hooks/useEventListener";
+import ParallaxImages from "./ParallaxImages";
+import {useParallax} from "../hooks/useParallax";
 
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
+  background-color: lightskyblue;
   ${prop => prop.height && css`
     height: ${prop.height};
   `}
 `;
 
-function SectionThree({ height, secondSection }) {
-    const initialImages = [
+const ParallaxBlock = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+function SectionThree({ height }) {
+    const images = [
         {
-            title: "blue fishes",
-            url: "bluefishes1.png",
+            title: "orange fishes",
+            url: "orangefishes1.png",
             style: {
                 top: "10%",
                 right: "10%",
                 width: "100px",
-            }
+            },
+            speed: 0.1
         },
         {
-            title: "blue fishes",
-            url: "bluefishes2.png",
+            title: "orange fishes",
+            url: "orangefishes2.png",
             style: {
-                top: "20%",
+                top: "30%",
                 right: "10%",
                 width: "100px",
-            }
+            },
+            speed: 0
         },
         {
             title: "blue fishes",
             url: "bluefishes3.png",
             style: {
                 top: "40%",
-                right: "15%",
-                width: "300px",
-            }
+                right: "20%",
+                width: "200px",
+            },
+            speed: -0.1
         },
         {
             title: "white fishes",
@@ -46,51 +56,38 @@ function SectionThree({ height, secondSection }) {
                 bottom: "30%",
                 left: "10%",
                 width: "100px",
-            }
+            },
+            speed: 0
         },
         {
             title: "white fishes",
             url: "whitefishes2.png",
             style: {
-                bottom: "50%",
+                bottom: "80%",
                 left: "10%",
                 width: "150px",
-            }
+            },
+            speed: 0.2
         },
-    ]
-    const [images, setImages] = useState(initialImages);
-    const parallaxSection = useRef(null);
-    const parallaxSpeed = useRef(1200);
-    const parallaxDefaultValue = useRef(200);
+    ];
 
-    const moveParallaxImage = (parallaxDistance) => {
-        setImages(
-            images.map((image, index) => {
-                return {...image, style: {...image.style, transform: parallaxDistance * index }};
-            })
-        );
-    }
+    const thirdSection = useRef();
+    const parallaxBlock = useRef();
+    const [scrollY, setScrollY] = useState(0);
 
     const handleScroll = () => {
-        const parallaxTop = parallaxSection.current.offsetTop;
-        const parallaxScrollY = window.scrollY - parallaxTop;
-        const { current : speed } = parallaxSpeed;
-        const { current : value } = parallaxDefaultValue;
-        const parallaxPercent = parallaxScrollY / speed * 100;
-        const parallaxDistance = value - (value * (parallaxPercent / 100));
-        if (0 <= parallaxDistance && parallaxDistance <= value){
-            moveParallaxImage(parallaxDistance);
-        }
+        const sectionHeight = thirdSection.current.offsetTop - window.innerHeight;
+        const y = window.scrollY - sectionHeight;
+        setScrollY(y);
     }
 
-    useEventListener(window, "scroll", handleScroll);
-    useEffect(() => {
-        parallaxSection.current = secondSection.current;
-    }, [secondSection]);
+    useParallax(parallaxBlock, handleScroll, { threshold: 0 });
 
     return (
-        <SectionBlock height={height}>
-            section4
+        <SectionBlock ref={thirdSection} height={height}>
+            <ParallaxBlock ref={parallaxBlock}>
+                <ParallaxImages images={images} scrollY={scrollY} />
+            </ParallaxBlock>
         </SectionBlock>
     );
 }

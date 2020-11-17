@@ -22,7 +22,7 @@ const Title = styled.h1`
 `;
 
 const Background = styled.div`
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -44,7 +44,7 @@ const DiverImage = styled.div`
   animation-iteration-count: infinite;
   animation-duration: 5s;
   animation-direction: alternate-reverse;
-  animation-play-state: running;
+  animation-play-state: paused;
   ${prop => prop.isScrolling && css`
     animation-play-state: paused;
   `}
@@ -70,7 +70,15 @@ const Image = styled.img`
 `;
 
 const StickyBlock = styled.div`
-  
+  position: relative;
+  height: 300vh;
+`;
+
+const SectionBlock = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 `;
 
 function Ocean() {
@@ -85,9 +93,6 @@ function Ocean() {
     const sectionTop = useRef(0);
     const sectionHeight = useRef(0);
     const sectionBottom = useRef(0);
-
-    const secondSection = useRef();
-    const fourthSection = useRef();
 
     const setScrollState = useCallback((prevScrollY) => {
         setTimeout(() => {
@@ -173,14 +178,16 @@ function Ocean() {
                 <Title>Motion graphic</Title>
                 <Background color={color}></Background>
                 <SectionOne firstSection={firstSection} height="100vh" />
-                <SectionTwo secondSection={secondSection} height="100vh" />
+                <SectionTwo height="100vh" />
                 <StickyBlock>
                     <DiverImage isScrolling={isScrolling}>
                         <Image src={`${process.env.PUBLIC_URL}/images/diver.png`} alt="diver" />
                     </DiverImage>
-                    <SectionThree secondSection={secondSection} height="200vh" />
-                    <SectionFour fourthSection={fourthSection} height="200vh" />
-                    <SectionFive height="200vh" />
+                    <SectionBlock>
+                        <SectionThree height="100vh" />
+                        <SectionFour height="100vh" />
+                        <SectionFive height="100vh" />
+                    </SectionBlock>
                 </StickyBlock>
             </Container>
         </>

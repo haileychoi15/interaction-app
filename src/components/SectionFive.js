@@ -41,8 +41,8 @@ function SectionFive({ height }) {
 
     const images = [
         {
-            title: "blue fishes",
-            url: "bluefishes1.png",
+            title: "yellow fishes",
+            url: "yellowfishes1.png",
             style: {
                 top: "10%",
                 right: "10%",
@@ -51,28 +51,28 @@ function SectionFive({ height }) {
             speed: 0.2
         },
         {
-            title: "blue fishes",
-            url: "bluefishes3.png",
+            title: "yellow fishes",
+            url: "yellowfishes2.png",
             style: {
                 top: "20%",
                 right: "15%",
-                width: "300px",
+                width: "200px",
             },
-            speed: 0
+            speed: -0.1
         },
         {
-            title: "white fishes",
-            url: "whitefishes1.png",
+            title: "lemon fishes",
+            url: "lemonfishes1.png",
             style: {
                 bottom: "30%",
                 left: "10%",
-                width: "100px",
+                width: "50px",
             },
             speed: -0.2
         },
         {
-            title: "white fishes",
-            url: "whitefishes2.png",
+            title: "turtle",
+            url: "turtle.png",
             style: {
                 bottom: "50%",
                 left: "20%",
@@ -99,7 +99,7 @@ function SectionFive({ height }) {
             <SandImage>
                 <Image src={`${process.env.PUBLIC_URL}/images/bottomsand.png`} alt="waves"/>
             </SandImage>
-            <ParallaxBlock ref={parallaxBlock} className="items">
+            <ParallaxBlock ref={parallaxBlock}>
                 <ParallaxImages images={images} scrollY={scrollY} />
             </ParallaxBlock>
         </SectionBlock>
