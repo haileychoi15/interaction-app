@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import React, {useCallback, useEffect, useRef} from "react";
 
 const CountBlock = styled.div`
@@ -6,12 +6,6 @@ const CountBlock = styled.div`
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 2px #333;
   transition: transform 1s ease-in-out;
-`;
-
-const CountTitle = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
 `;
 
 const CountNumber = styled.div`
@@ -36,6 +30,9 @@ const ColumnBox = styled.span`
     &.active {
       animation-play-state: running;
     }
+   /* ${props => props.active && css`
+        
+    `};*/
     @keyframes roll_number {
         0% {
           transform: translateY(0);
@@ -48,6 +45,7 @@ const ColumnBox = styled.span`
 
 function RollingNumbers({ numbers }) {
 
+    const countBlock = useRef();
     const columnBoxRefs = useRef([]);
     const rollingCount = useRef(24);
 
@@ -56,9 +54,15 @@ function RollingNumbers({ numbers }) {
     );
 
     const rollNumbers = useCallback((countBox, index) => {
-        setTimeout(() => {
-            countBox.classList.add('active');
-        }, 150 * index);
+        const { current } = countBlock;
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setTimeout(() => {
+                    countBox.classList.add('active');
+                }, 150 * index);
+            }
+        }, { threshold: 0 });
+        observer.observe(current);
     }, []);
 
     const createRollingNumbers = useCallback((numbers) => {
@@ -92,15 +96,14 @@ function RollingNumbers({ numbers }) {
     }, [createRollingNumbers]);
 
     return (
-        <CountBlock>
-            <CountTitle>today</CountTitle>
+        <CountBlock ref={countBlock}>
             <CountNumber>
                 {numbers.map((number, index) =>
                     <ColumnBox
                         key={index}
                         ref={columnBoxRefs.current[index]}
                         rollingCount={rollingCount.current}
-                        className="count_box">
+                    >
                     </ColumnBox>
                 )}
             </CountNumber>

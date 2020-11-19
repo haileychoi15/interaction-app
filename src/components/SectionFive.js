@@ -6,7 +6,7 @@ import {useParallax} from "../hooks/useParallax";
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
-  background-color: lightskyblue;
+  background-color: #1280c4;
   z-index: 0;
   ${prop => prop.height && css`
     height: ${prop.height};

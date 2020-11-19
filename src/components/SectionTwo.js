@@ -8,7 +8,7 @@ const SectionBlock = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 2rem 0 2rem 2rem;
+  padding: 1rem;
   background-color: rgb(66, 155, 210);
   ${prop => prop.height && css`
     min-height: ${prop.height};
@@ -251,7 +251,7 @@ function SectionTwo({ height }) {
     useParallax(parallaxBlock, handleScroll, { threshold: 0 });
 
     return (
-        <SectionBlock ref={secondSection} height={height} className="section">
+        <SectionBlock ref={secondSection} height={height}>
             <LeftBlock>
                 <SectionTitle>
                     What is Scuba Diving?

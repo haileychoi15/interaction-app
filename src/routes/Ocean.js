@@ -38,7 +38,7 @@ const DiverImage = styled.div`
   top: 20%;
   left: 10%;
   width: 13rem;
-  z-index: 1;
+  z-index: 10;
   animation-name: moveDiver;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
