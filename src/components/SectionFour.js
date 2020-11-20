@@ -105,64 +105,81 @@ const ArticleContent = styled.p`
 function SectionFour({ height }) {
     const images = [
         {
-            title: "red fishes",
-            url: "redfishes1.png",
+            title: "bubbles",
+            url: "bubbles4.png",
             style: {
-                top: 0,
+                top: "-20%",
                 right: "10%",
-                width: "150px"
+                width: "150px",
+                opacity: 0.3
             },
             speed: 0.1
         },
         {
-            title: "red fishes",
-            url: "redfishes3.png",
+            title: "bubbles",
+            url: "bubbles4.png",
             style: {
-                top: "10%",
-                right: "15%",
-                width: "150px"
+                bottom: "-30%",
+                right: "25%",
+                width: "150px",
+                opacity: 0.3
             },
             speed: -0.1
         },
         {
-            title: "red fishes",
-            url: "redfishes2.png",
+            title: "bubbles",
+            url: "bubbles1.png",
             style: {
-                top: "20%",
-                right: "15%",
-                width: "120px"
+                top: "10%",
+                left: "5%",
+                width: "150px",
+                opacity: 0.3
             },
             speed: 0
         },
         {
-            title: "orange fishes",
-            url: "orangefishes2.png",
+            title: "bubbles",
+            url: "bubbles2.png",
             style: {
-                top: "40%",
-                right: "10%",
-                width: "100px"
-            },
-            speed: 0
-        },
-        {
-            title: "orange fishes",
-            url: "orangefishes1.png",
-            style: {
-                bottom: "30%",
+                bottom: "50%",
                 left: "10%",
-                width: "100px"
+                width: "150px",
+                opacity: 0.3
             },
-            speed: 0
+            speed: -0.1
         },
         {
-            title: "white fishes",
-            url: "whitefishes2.png",
+            title: "bubbles",
+            url: "bubbles3.png",
             style: {
                 bottom: "0",
                 left: "10%",
-                width: "200px"
+                width: "200px",
+                opacity: 0.3
+            },
+            speed: 0.1
+        },
+        {
+            title: "bubbles",
+            url: "bubbles3.png",
+            style: {
+                bottom: "0",
+                left: "35%",
+                width: "200px",
+                opacity: 0.3
             },
             speed: -0.1
+        },
+        {
+            title: "bubbles",
+            url: "bubbles2.png",
+            style: {
+                bottom: "0",
+                left: "5%",
+                width: "150px",
+                opacity: 0.3
+            },
+            speed: 0
         },
     ];
 

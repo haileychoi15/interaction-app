@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useRef, useState} from "react";
 import styled, {css} from "styled-components";
-import RollingNumbers from "../components/RollingNumbers"
+import ParallaxImages from "./ParallaxImages";
+import {useParallax} from "../hooks/useParallax";
 
 const SectionBlock = styled.div`
   width: 100%;
@@ -15,7 +16,17 @@ const Fixed = styled.div`
   position: fixed;
   width: 100%;
   height: 100vh;
+  padding: 1rem;
   z-index: -10;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  @media screen and (min-width: 48rem) {
+    padding: 2rem;
+  }
+  ${css`
+    background-image: url(${`${process.env.PUBLIC_URL}/images/sky.png`});
+  `}
 `;
 
 const Title = styled.div`
@@ -23,6 +34,7 @@ const Title = styled.div`
 `;
 
 const TextBlock = styled.div`
+  font-family: 'Abril Fatface', cursive;
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -80,6 +92,39 @@ const Mask = styled.span`
   }
 `;
 
+const SandImage = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 10%;
+  width: 100%;
+  @media screen and (min-width: 48rem) {
+    bottom: 0;
+    width: 80%;
+    height: 19rem;
+  }
+`;
+
+const ParallaxBlock = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
+
+const PalmtreeImage = styled.div`
+  position: absolute;
+  bottom: 20%;
+  right: 15%;
+  width: 200px;
+  @media screen and (min-width: 48rem) {
+    width: 400px;
+    bottom: 45%;
+  }
+`;
+
+const Img = styled.img`
+  width: 100%;
+`;
+
 function SectionOne({ firstSection, height }) {
     const initialTexts = [
         {
@@ -92,9 +137,40 @@ function SectionOne({ firstSection, height }) {
             text: "Let's get it!",
         },
     ];
+    const images = [
+        {
+            title: "sand",
+            url: "sandleft.png",
+            style: {
+                bottom: "10%",
+                left: 0,
+                width: "60%"
+            },
+            speed: -1,
+            moveSide: true
+        },
+        {
+            title: "sand",
+            url: "sandright.png",
+            style: {
+                bottom: "10%",
+                right: 0,
+                width: "100%"
+            },
+            speed: 1,
+            moveSide: true
+        }
+    ];
 
-    const today = new Date();
-    const numbers = `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`.split("");
+    const parallaxBlock = useRef();
+    const [scrollY, setScrollY] = useState(0);
+
+    const handleScroll = () => {
+        const y = window.scrollY;
+        setScrollY(y);
+    }
+
+    useParallax(parallaxBlock, handleScroll, { threshold: 0 });
 
     return (
         <SectionBlock ref={firstSection} height={height}>
@@ -110,9 +186,15 @@ function SectionOne({ firstSection, height }) {
                         </li>
                     )}
                 </ul>
-                <div>
-                    <RollingNumbers numbers={numbers} />
-                </div>
+                <SandImage>
+                    <ParallaxBlock ref={parallaxBlock}>
+                        {/*<ParallaxImages images={[images[0]]} scrollY={scrollY} />*/}
+                        <ParallaxImages images={[images[1]]} scrollY={scrollY} />
+                        <PalmtreeImage>
+                            <Img src={`${process.env.PUBLIC_URL}/images/palmtree.png`} alt="palmtree" />
+                        </PalmtreeImage>
+                    </ParallaxBlock>
+                </SandImage>
             </Fixed>
         </SectionBlock>
     );

@@ -13,7 +13,10 @@ function ParallaxImages({ images, scrollY }) {
                     key={index}
                     src={`${process.env.PUBLIC_URL}/images/${image.url}`}
                     alt={image.title}
-                    style={{...image.style, transform: `translateY(${scrollY * image.speed}px)`}}
+                    style={ image.moveSide
+                        ? {...image.style, transform: `translateX(${scrollY * image.speed}px)`}
+                        : {...image.style, transform: `translateY(${scrollY * image.speed}px)`}
+                    }
                     className="item"
                 />
             )}

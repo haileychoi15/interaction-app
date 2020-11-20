@@ -13,14 +13,6 @@ const Container = styled.div`
   width: 100vw;
 `;
 
-const Title = styled.h1`
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  font-size: 1rem;
-  color: #333;
-`;
-
 const Background = styled.div`
   position: sticky;
   top: 0;
@@ -175,7 +167,6 @@ function Ocean() {
         <>
             <Container>
                 <Progress percent={percent} />
-                <Title>Motion graphic</Title>
                 <Background color={color}></Background>
                 <SectionOne firstSection={firstSection} height="100vh" />
                 <SectionTwo height="100vh" />

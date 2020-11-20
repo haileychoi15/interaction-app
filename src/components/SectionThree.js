@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import styled, {css} from "styled-components";
 import ParallaxImages from "./ParallaxImages";
 import {useParallax} from "../hooks/useParallax";
@@ -52,14 +52,46 @@ const SectionContent = styled.p`
   }
 `;
 
+const NumberBlock = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Text = styled.p`
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: #eee;
+  transform: translateY(1rem);
+`;
+
 function SectionThree({ height }) {
     const images = [
+        {
+            title: "lemon fishes",
+            url: "lemonfishes1.png",
+            style: {
+                top: "5%",
+                left: "10%",
+                width: "50px",
+            },
+            speed: 0
+        },
+        {
+            title: "lemon fishes",
+            url: "lemonfishes1.png",
+            style: {
+                top: "0",
+                left: "5%",
+                width: "70px",
+            },
+            speed: 0.1
+        },
         {
             title: "orange fishes",
             url: "orangefishes1.png",
             style: {
-                top: "10%",
-                left: "10%",
+                bottom: "50%",
+                left: "7%",
                 width: "100px",
             },
             speed: 0.1
@@ -68,41 +100,41 @@ function SectionThree({ height }) {
             title: "orange fishes",
             url: "orangefishes2.png",
             style: {
-                top: "30%",
-                left: "10%",
+                bottom: "30%",
+                left: "5%",
                 width: "100px",
             },
             speed: 0
         },
         {
-            title: "blue fishes",
-            url: "bluefishes3.png",
+            title: "red fishes",
+            url: "redfishes3.png",
             style: {
-                top: "40%",
-                left: "20%",
-                width: "200px",
+                bottom: 0,
+                right: "20%",
+                width: "150px",
             },
             speed: -0.1
         },
         {
-            title: "white fishes",
-            url: "whitefishes1.png",
+            title: "red fishes",
+            url: "redfishes1.png",
             style: {
-                bottom: "30%",
-                left: "10%",
-                width: "100px",
+                bottom: "10%",
+                right: "20%",
+                width: "150px",
             },
             speed: 0
         },
         {
-            title: "white fishes",
-            url: "whitefishes2.png",
+            title: "red fishes",
+            url: "redfishes2.png",
             style: {
-                bottom: "80%",
-                left: "10%",
-                width: "150px",
+                bottom: "50%",
+                right: "10%",
+                width: "120px",
             },
-            speed: 0.2
+            speed: 0.1
         },
     ];
 
@@ -120,7 +152,6 @@ function SectionThree({ height }) {
 
     useParallax(parallaxBlock, handleScroll, { threshold: 0 });
 
-
     return (
         <SectionBlock ref={thirdSection} height={height}>
             <ParallaxBlock ref={parallaxBlock}>
@@ -131,8 +162,10 @@ function SectionThree({ height }) {
                 <SectionContent>
                     Blue Hole is a diving location on east Sinai, a few kilometres north of Dahab, Egypt on the coast of the Red Sea. Experience the vast blueness & huge schools of fish, as well as seeing a Hawksbill Turtle who might cruse alongside you.
                 </SectionContent>
-                <RollingNumbers numbers={numbers} />
-                <p>meters depth</p>
+                <NumberBlock>
+                    <RollingNumbers numbers={numbers} />
+                    <Text>divers in the world</Text>
+                </NumberBlock>
             </RightBlock>
         </SectionBlock>
     );

@@ -13,23 +13,67 @@ const SectionBlock = styled.div`
   `}
 `;
 
-const SandImage = styled.div`
+const SectionAbout = styled.div`
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  padding: 0;
-  margin: 0;
-  height: 200px;
-  overflow: hidden;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
   @media screen and (min-width: 48rem) {
-    width: 100%;
+    top: 5rem;
+    width: 46rem;
+    padding: 0;
   }
 `;
 
-const Image = styled.img`
+const SectionTitle = styled.h1`
   width: 100%;
-  height: 200px;
+  margin: 0 0 1rem;
+  font-size: 2.5rem;
+  color: #eee;
+  text-align: left;
+`;
+
+const SectionContent = styled.p`
+  width: 100%;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  color: #eee;
+`;
+
+const BottomImage = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  height: 300px;
+`;
+
+const LeftImage = styled.img`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  @media screen and (min-width: 48rem) {
+    width: 50%;
+  }
+`;
+
+const RightImage = styled.img`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  @media screen and (min-width: 48rem) {
+    width: 70%;
+  }
 `;
 
 const ParallaxBlock = styled.div`
@@ -39,7 +83,7 @@ const ParallaxBlock = styled.div`
 
 function SectionFive({ height }) {
 
-    const images = [
+    const parallexImages = [
         {
             title: "yellow fishes",
             url: "yellowfishes1.png",
@@ -54,9 +98,29 @@ function SectionFive({ height }) {
             title: "yellow fishes",
             url: "yellowfishes2.png",
             style: {
-                top: "20%",
-                right: "15%",
+                top: "40%",
+                right: "10%",
                 width: "200px",
+            },
+            speed: -0.1
+        },
+        {
+            title: "orange fishes",
+            url: "orangefishes1.png",
+            style: {
+                bottom: "65%",
+                right: "50%",
+                width: "100px",
+            },
+            speed: 0.1
+        },
+        {
+            title: "orange fishes",
+            url: "orangefishes2.png",
+            style: {
+                bottom: "10%",
+                right: "43%",
+                width: "100px",
             },
             speed: -0.1
         },
@@ -64,11 +128,11 @@ function SectionFive({ height }) {
             title: "lemon fishes",
             url: "lemonfishes1.png",
             style: {
-                bottom: "30%",
-                left: "10%",
+                top: "20%",
+                left: "5%",
                 width: "50px",
             },
-            speed: -0.2
+            speed: 0.2
         },
         {
             title: "turtle",
@@ -80,7 +144,7 @@ function SectionFive({ height }) {
             },
             speed: 0.1
         },
-    ]
+    ];
 
     const fifthSection = useRef();
     const parallaxBlock = useRef();
@@ -96,11 +160,19 @@ function SectionFive({ height }) {
 
     return (
         <SectionBlock height={height} ref={fifthSection}>
-            <SandImage>
-                <Image src={`${process.env.PUBLIC_URL}/images/bottomsand.png`} alt="waves"/>
-            </SandImage>
+            <SectionAbout>
+                <SectionTitle>Ready to Dive?</SectionTitle>
+                <SectionContent>
+                    Scuba diving is mainly done for the attraction of the unattainable undersea world. It is one area of nature that mankind has not been able to fully control, we simply are not able to breathe underwater. Hence, scuba diving gives us an opportunity to be in that underwater world.
+                    We can explore underwater environments through scuba diving. But, Don't forget safety during scuba diving!
+                </SectionContent>
+            </SectionAbout>
+            <BottomImage>
+                <LeftImage src={`${process.env.PUBLIC_URL}/images/bottomleft.png`} alt="sand" />
+                <RightImage src={`${process.env.PUBLIC_URL}/images/bottomright.png`} alt="sand" />
+            </BottomImage>
             <ParallaxBlock ref={parallaxBlock}>
-                <ParallaxImages images={images} scrollY={scrollY} />
+                <ParallaxImages images={parallexImages} scrollY={scrollY} />
             </ParallaxBlock>
         </SectionBlock>
     );

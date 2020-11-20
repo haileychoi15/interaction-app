@@ -4,7 +4,7 @@ import React, {useCallback, useEffect, useRef} from "react";
 const CountBlock = styled.div`
   position: relative;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 2px #333;
+  -webkit-text-stroke: 2px #eee;
   transition: transform 1s ease-in-out;
 `;
 
@@ -12,7 +12,6 @@ const CountNumber = styled.div`
   height: 74px;
   font-size: 4rem;
   font-weight: 600;
-  color: #333;
   opacity: 1;
   transition: opacity 500ms 1000ms;
   overflow: hidden;
