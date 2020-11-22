@@ -9,7 +9,7 @@ const CountBlock = styled.div`
 `;
 
 const CountNumber = styled.div`
-  height: 74px;
+  height: 84px;
   font-size: 4rem;
   font-weight: 600;
   opacity: 1;
@@ -29,15 +29,12 @@ const ColumnBox = styled.span`
     &.active {
       animation-play-state: running;
     }
-   /* ${props => props.active && css`
-        
-    `};*/
     @keyframes roll_number {
         0% {
           transform: translateY(0);
         }
         100% {
-          transform: ${props => `translateY(-${props.rollingCount * 74}px)`};
+          transform: ${props => `translateY(-${props.rollingCount * 84}px)`};
         }
     }
 `;

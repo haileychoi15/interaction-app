@@ -29,20 +29,13 @@ const WaveImage = styled.div`
   }
 `;
 
-const IslandImage = styled.img`
-  position: fixed;
-  bottom: 10%;
-  left: 65%;
-  width: 30%;
-  z-index: -1;
-`;
-
 const Image = styled.img`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 150px;
+  height: 155px;
+  z-index: -10;
 `;
 
 const LeftBlock = styled.div`
@@ -280,7 +273,6 @@ function SectionTwo({ height }) {
             </RightBlock>
             <WaveImage>
                 <Image src={`${process.env.PUBLIC_URL}/images/waves.png`} alt="waves" />
-                <IslandImage src={`${process.env.PUBLIC_URL}/images/island.png`} alt="island" className="island" />
             </WaveImage>
         </SectionBlock>
     );

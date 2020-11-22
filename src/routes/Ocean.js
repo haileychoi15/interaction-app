@@ -13,30 +13,19 @@ const Container = styled.div`
   width: 100vw;
 `;
 
-const Background = styled.div`
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 1s linear;
-/*  ${prop => prop.color && css`
-    background-color: ${prop.color};
-  `}*/
-`;
-
 const DiverImage = styled.div`
   position: sticky;
   top: 20%;
   left: 10%;
   width: 13rem;
+  opacity: 0;
   z-index: 10;
   animation-name: moveDiver;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-duration: 5s;
   animation-direction: alternate-reverse;
-  animation-play-state: paused;
+  animation-play-state: running;
   ${prop => prop.isScrolling && css`
     animation-play-state: paused;
   `}
@@ -53,6 +42,7 @@ const DiverImage = styled.div`
   }
   @media screen and (min-width: 48rem) {
     width: 25rem;
+    opacity: 1;
   }
 `;
 
@@ -64,6 +54,8 @@ const Image = styled.img`
 const StickyBlock = styled.div`
   position: relative;
   height: 300vh;
+  background-color: rgb(66, 155, 210);
+  
 `;
 
 const SectionBlock = styled.div`
@@ -71,6 +63,11 @@ const SectionBlock = styled.div`
   top: 0;
   left: 0;
   width: 100%;
+  background: none;
+  transition: all 500ms linear;
+  ${prop => prop.color && css`
+    background-color: ${prop.color};
+  `}
 `;
 
 function Ocean() {
@@ -100,18 +97,12 @@ function Ocean() {
     }, []);
 
     const changeBackground = useCallback(() => {
-        if (percent < 10) {
-            setColor('#b3e5fc');
-        } else if (percent < 20) {
-            setColor('#81daf4');
-        } else if (percent < 40) {
-            setColor('#29b6f6');
-        } else if (percent < 60) {
+        if (percent < 70) {
+            setColor('rgb(66, 155, 210)');
+        } else if (percent < 90) {
             setColor('#0288d1');
-        } else if (percent < 80) {
-            setColor('#01579b');
         } else {
-            setColor('#003865');
+            setColor('#01579b');
         }
     }, [percent]);
 
@@ -167,14 +158,13 @@ function Ocean() {
         <>
             <Container>
                 <Progress percent={percent} />
-                <Background color={color}></Background>
                 <SectionOne firstSection={firstSection} height="100vh" />
                 <SectionTwo height="100vh" />
                 <StickyBlock>
                     <DiverImage isScrolling={isScrolling}>
                         <Image src={`${process.env.PUBLIC_URL}/images/diver.png`} alt="diver" />
                     </DiverImage>
-                    <SectionBlock>
+                    <SectionBlock color={color}>
                         <SectionThree height="100vh" />
                         <SectionFour height="100vh" />
                         <SectionFive height="100vh" />

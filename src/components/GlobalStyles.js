@@ -3,7 +3,7 @@ import {createGlobalStyle} from "styled-components";
 export const GlobalStyles = createGlobalStyle`
   
   body {
-    font-family: 'Nanum Gothic', sans-serif; 
+    font-family: 'Roboto Mono', monospace;
     padding: 0;
     margin: 0;
     color: #333;

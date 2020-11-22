@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled, {css} from "styled-components";
 import ParallaxImages from "./ParallaxImages";
 import {useParallax} from "../hooks/useParallax";
@@ -24,28 +24,24 @@ const Fixed = styled.div`
   @media screen and (min-width: 48rem) {
     padding: 2rem;
   }
-  ${css`
-    background-image: url(${`${process.env.PUBLIC_URL}/images/sky.png`});
-  `}
 `;
 
-const Title = styled.div`
-  font-size: 1rem;
+const SectionTitle = styled.h1`
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 600;
 `;
 
 const TextBlock = styled.div`
-  font-family: 'Abril Fatface', cursive;
   position: relative;
   display: inline-block;
   overflow: hidden;
 `;
 
-const Text = styled.p`
-  font-size: 3rem;
-  font-weight: 600;
+const Text = styled.span`
   animation-name: text_opacity;
   animation-duration: 1500ms;
-  animation-delay: 200ms;
+  animation-delay: 1500ms;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
   @keyframes text_opacity {
@@ -76,6 +72,10 @@ const Mask = styled.span`
   animation-name: text_mask;
   animation-duration: 1500ms;
   animation-timing-function: ease-out;
+  animation-play-state: paused;
+  ${props => props.active && css`
+    animation-play-state: running;
+  `}
   @keyframes text_mask {
     0% {
       width: 0%;
@@ -92,38 +92,6 @@ const Mask = styled.span`
   }
 `;
 
-const SandImage = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: 10%;
-  width: 100%;
-  @media screen and (min-width: 48rem) {
-    bottom: 0;
-    width: 80%;
-    height: 19rem;
-  }
-`;
-
-const ParallaxBlock = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-`;
-
-const PalmtreeImage = styled.div`
-  position: absolute;
-  bottom: 20%;
-  right: 15%;
-  width: 200px;
-  @media screen and (min-width: 48rem) {
-    width: 400px;
-    bottom: 45%;
-  }
-`;
-
-const Img = styled.img`
-  width: 100%;
-`;
 
 function SectionOne({ firstSection, height }) {
     const initialTexts = [
@@ -137,64 +105,28 @@ function SectionOne({ firstSection, height }) {
             text: "Let's get it!",
         },
     ];
-    const images = [
-        {
-            title: "sand",
-            url: "sandleft.png",
-            style: {
-                bottom: "10%",
-                left: 0,
-                width: "60%"
-            },
-            speed: -1,
-            moveSide: true
-        },
-        {
-            title: "sand",
-            url: "sandright.png",
-            style: {
-                bottom: "10%",
-                right: 0,
-                width: "100%"
-            },
-            speed: 1,
-            moveSide: true
-        }
-    ];
 
-    const parallaxBlock = useRef();
-    const [scrollY, setScrollY] = useState(0);
+    const [active, setActive] = useState(false);
 
-    const handleScroll = () => {
-        const y = window.scrollY;
-        setScrollY(y);
-    }
-
-    useParallax(parallaxBlock, handleScroll, { threshold: 0 });
+    useEffect(() => {
+        setTimeout(() => {
+            setActive(true);
+        }, 1000);
+    }, []);
 
     return (
         <SectionBlock ref={firstSection} height={height}>
             <Fixed>
-                <Title>section1</Title>
-                <ul>
+                <SectionTitle>
                     {initialTexts.map((text, index) =>
-                        <li key={index}>
-                            <TextBlock>
+                        <div key={index}>
+                            <TextBlock key={index}>
                                 <Text>{text.text}</Text>
-                                <Mask></Mask>
+                                <Mask active={active}></Mask>
                             </TextBlock>
-                        </li>
+                        </div>
                     )}
-                </ul>
-                <SandImage>
-                    <ParallaxBlock ref={parallaxBlock}>
-                        {/*<ParallaxImages images={[images[0]]} scrollY={scrollY} />*/}
-                        <ParallaxImages images={[images[1]]} scrollY={scrollY} />
-                        <PalmtreeImage>
-                            <Img src={`${process.env.PUBLIC_URL}/images/palmtree.png`} alt="palmtree" />
-                        </PalmtreeImage>
-                    </ParallaxBlock>
-                </SandImage>
+                </SectionTitle>
             </Fixed>
         </SectionBlock>
     );

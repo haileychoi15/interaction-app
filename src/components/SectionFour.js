@@ -6,7 +6,7 @@ import {useParallax} from "../hooks/useParallax";
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
-  background-color: rgb(66, 155, 210);
+  //background-color: rgb(66, 155, 210);
   ${prop => prop.height && css`
     min-height: ${prop.height};
   `}
@@ -33,9 +33,10 @@ const ParallaxBlock = styled.div`
 
 const Articles = styled.div`
   width: 100%;
+  padding: 2rem;
   color: #eee;
   @media screen and (min-width: 48rem) {
-    width: 42rem;
+    width: 48rem;
   }
 `;
 

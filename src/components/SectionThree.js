@@ -8,7 +8,7 @@ const SectionBlock = styled.div`
   position: relative;
   width: 100%;
   padding: 2rem;
-  background-color: lightskyblue;
+  background: none;
   z-index: 0;
   ${prop => prop.height && css`
     min-height: ${prop.height};
@@ -27,6 +27,9 @@ const RightBlock = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   height: 100%;
   padding: 1rem;
@@ -114,13 +117,13 @@ function SectionThree({ height }) {
                 right: "20%",
                 width: "150px",
             },
-            speed: -0.1
+            speed: -0.03
         },
         {
             title: "red fishes",
             url: "redfishes1.png",
             style: {
-                bottom: "10%",
+                bottom: "0",
                 right: "20%",
                 width: "150px",
             },
@@ -130,8 +133,8 @@ function SectionThree({ height }) {
             title: "red fishes",
             url: "redfishes2.png",
             style: {
-                bottom: "50%",
-                right: "10%",
+                bottom: "40%",
+                right: "15%",
                 width: "120px",
             },
             speed: 0.1

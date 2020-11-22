@@ -6,7 +6,7 @@ import {useParallax} from "../hooks/useParallax";
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
-  background-color: #1280c4;
+  //background-color: #1280c4;
   z-index: 0;
   ${prop => prop.height && css`
     height: ${prop.height};
@@ -15,7 +15,7 @@ const SectionBlock = styled.div`
 
 const SectionAbout = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -26,8 +26,8 @@ const SectionAbout = styled.div`
   padding: 1rem;
   @media screen and (min-width: 48rem) {
     top: 5rem;
-    width: 46rem;
-    padding: 0;
+    max-width: 46rem;
+    padding: 1rem 1rem 1rem 2rem;
   }
 `;
 
@@ -41,7 +41,6 @@ const SectionTitle = styled.h1`
 
 const SectionContent = styled.p`
   width: 100%;
-  margin-bottom: 2rem;
   font-size: 1.2rem;
   color: #eee;
 `;
@@ -138,11 +137,11 @@ function SectionFive({ height }) {
             title: "turtle",
             url: "turtle.png",
             style: {
-                bottom: "50%",
-                left: "20%",
+                bottom: "-10%",
+                left: "5%",
                 width: "150px",
             },
-            speed: 0.1
+            speed: -0.1
         },
     ];
 

@@ -9,18 +9,34 @@ const NavigationBlock = styled.div`
   z-index: 1000;
 `;
 
+const Ul = styled.ul`
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+`;
+
+const Li = styled.li`
+  font-size: 1.2rem;
+  font-weight: 500;
+  & + & {
+    margin-left: 1rem;
+  }
+`;
+
 function Navigation() {
     return (
         <NavigationBlock>
-            <div>
-                <Link to="/">Home</Link>
-            </div>
-            <div>
-                <Link to="/sky">sky</Link>
-            </div>
-            <div>
-                <Link to="/ocean">ocean</Link>
-            </div>
+            <Ul>
+                <Li>
+                    <Link to="/">Home</Link>
+                </Li>
+                <Li>
+                    <Link to="/sky">sky</Link>
+                </Li>
+                <Li>
+                    <Link to="/ocean">ocean</Link>
+                </Li>
+            </Ul>
         </NavigationBlock>
     );
 }
