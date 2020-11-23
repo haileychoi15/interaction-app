@@ -25,7 +25,7 @@ const SectionAbout = styled.div`
   width: 100%;
   padding: 1rem;
   @media screen and (min-width: 48rem) {
-    top: 5rem;
+    top: 2rem;
     max-width: 46rem;
     padding: 1rem 1rem 1rem 2rem;
   }

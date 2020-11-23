@@ -121,16 +121,26 @@ const ArticleImage = styled.div`
   height: 170px;
   border-radius: 50%;
   margin: 0 2rem 0 0;
-  background: lightskyblue;
   transition: box-shadow 200ms ease-in-out;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   z-index: 1;
   ${ArticleBlock}:hover &{
     box-shadow: none;
   }
+  ${prop => prop.image && css`
+    background-image: url(${prop.image});
+  `}
   @media screen and (min-width: 48rem) {
     margin: 0 auto 2rem;
   }
+`;
+
+const BubbleImage = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const ArticleDescription = styled.div`
@@ -176,15 +186,18 @@ function SectionTwo({ height }) {
     const articles = [
         {
             title: "01 Open Water",
-            content: "During the PADI Open Water Diver course, you’ll learn what you need to know to explore the underwater world using scuba. Most people find it a rewarding challenge."
+            content: "During the PADI Open Water Diver course, you’ll learn what you need to know to explore the underwater world using scuba. Most people find it a rewarding challenge.",
+            url: "filippers-icon.png",
         },
         {
             title: "02 Advanced",
-            content: "This course can be taken after completing the PADI Open Water Diver certification. It's titled PADI Advanced Open Water Diver because it advances your diving knowledge & skills."
+            content: "This course can be taken after completing the PADI Open Water Diver certification. It's titled PADI Advanced Open Water Diver because it advances your diving knowledge & skills.",
+            url: "equipment-icon.png",
         },
         {
             title: "03 Divemaster",
-            content: "Start here to become a PADI dive Instructor. Share your passion with others and help them experience the same joy you have for scuba diving."
+            content: "Start here to become a PADI dive Instructor. Share your passion with others and help them experience the same joy you have for scuba diving.",
+            url: "diver-icon.png",
         }
     ];
 
@@ -259,7 +272,9 @@ function SectionTwo({ height }) {
                     {articles.map((article, index) =>
                         <ArticleBlock key={index}>
                             <ArticleBackground></ArticleBackground>
-                            <ArticleImage></ArticleImage>
+                            <ArticleImage image={`${process.env.PUBLIC_URL}/images/${article.url}`}>
+                                <BubbleImage src={`${process.env.PUBLIC_URL}/images/bubble.png`} alt="bubble" />
+                            </ArticleImage>
                             <ArticleDescription>
                                 <ArticleTitle>{article.title}</ArticleTitle>
                                 <ArticleContent>{article.content}</ArticleContent>

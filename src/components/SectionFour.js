@@ -6,7 +6,6 @@ import {useParallax} from "../hooks/useParallax";
 const SectionBlock = styled.div`
   position: relative;
   width: 100%;
-  //background-color: rgb(66, 155, 210);
   ${prop => prop.height && css`
     min-height: ${prop.height};
   `}
@@ -52,8 +51,12 @@ const ArticleBlock = styled.div`
   border-radius: 15px;
   background-color: rgba(66, 155, 210, 0);
   z-index: 1;
+  transition: all 250ms ease-in-out;
   & + & {
     margin-top: 1rem;
+  }
+  @media screen and (min-width: 48rem) {
+    width: 85%;
   }
 `;
 
@@ -81,11 +84,20 @@ const ArticleImage = styled.div`
   height: 170px;
   border-radius: 50%;
   margin: 0 2rem 0 0;
-  background: #f3dedb;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
   z-index: 1;
+  ${prop => prop.image && css`
+    background-image: url(${prop.image});
+  `}
 `;
 
+const BubbleImage = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 
 const ArticleDescription = styled.div`
     display: flex;
@@ -210,15 +222,18 @@ function SectionFour({ height }) {
     const articles = [
         {
             title: "Dahab",
-            content: "Dahab offers fantastic scuba diving opportunities to suit diving-mad enthusiasts, all the way to dip-in, dip-out divers. Diving here is suitable for beginners, advanced and technical divers alike."
+            content: "Dahab offers fantastic scuba diving opportunities to suit diving-mad enthusiasts, all the way to dip-in, dip-out divers. Diving here is suitable for beginners, advanced and technical divers alike.",
+            url: "diver-icon.png"
         },
         {
             title: "Sharm El Sheikh",
-            content: "Liveaboard operators often require anywhere between 30-50 logged dives as a prerequisite to join trips. Sharm el-Sheikh boasts around 30 different sites to explore on day trips alone. Boats are large, comfortable and purpose built for diving."
+            content: "Liveaboard operators often require anywhere between 30-50 logged dives as a prerequisite to join trips. Sharm el-Sheikh boasts around 30 different sites to explore on day trips alone. Boats are large, comfortable and purpose built for diving.",
+            url: "filippers-icon.png"
         },
         {
             title: "Hurghada",
-            content: "There are many itineraries to choose from; some specialise in wrecks whereas others offer a mix of wrecks and reefs. There’s a range of boats available with some of the most luxurious boats plying these routes."
+            content: "There are many itineraries to choose from; some specialise in wrecks whereas others offer a mix of wrecks and reefs. There’s a range of boats available with some of the most luxurious boats plying these routes.",
+            url: "equipment-icon.png"
         },
     ];
 
@@ -243,7 +258,9 @@ function SectionFour({ height }) {
                     {articles.map((article, index) =>
                         <ArticleBlock key={index}>
                             <ArticleBackground></ArticleBackground>
-                            <ArticleImage></ArticleImage>
+                            <ArticleImage image={`${process.env.PUBLIC_URL}/images/${article.url}`}>
+                                <BubbleImage src={`${process.env.PUBLIC_URL}/images/bubble.png`} alt="bubble" />
+                            </ArticleImage>
                             <ArticleDescription>
                                 <ArticleTitle>{article.title}</ArticleTitle>
                                 <ArticleContent>{article.content}</ArticleContent>
