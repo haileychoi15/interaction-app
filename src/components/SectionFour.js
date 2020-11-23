@@ -112,12 +112,12 @@ function SectionFour({ height }) {
             title: "bubbles",
             url: "bubbles4.png",
             style: {
-                top: "-20%",
+                top: "10%",
                 right: "10%",
                 width: "150px",
                 opacity: 0.3
             },
-            speed: 0.1
+            speed: 0
         },
         {
             title: "bubbles",
@@ -185,6 +185,26 @@ function SectionFour({ height }) {
             },
             speed: 0
         },
+        {
+            title: "yellow fishes",
+            url: "yellowfishes1.png",
+            style: {
+                bottom: "50%",
+                right: "10%",
+                width: "100px",
+            },
+            speed: 0.2
+        },
+        {
+            title: "yellow fishes",
+            url: "yellowfishes2.png",
+            style: {
+                bottom: 0,
+                right: "10%",
+                width: "200px",
+            },
+            speed: 0.12
+        },
     ];
 
     const articles = [
@@ -207,9 +227,11 @@ function SectionFour({ height }) {
     const [scrollY, setScrollY] = useState(0);
 
     const handleScroll = () => {
-        const sectionHeight = fourthSection.current.offsetTop - window.innerHeight;
-        const y = window.scrollY - sectionHeight;
-        setScrollY(y);
+        if (fourthSection.current) {
+            const sectionHeight = fourthSection.current.offsetTop - window.innerHeight;
+            const y = window.scrollY - sectionHeight;
+            setScrollY(y);
+        }
     }
 
     useParallax(parallaxBlock, handleScroll, { threshold: 0 });

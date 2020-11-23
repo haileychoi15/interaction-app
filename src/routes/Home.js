@@ -1,5 +1,5 @@
 import React from "react";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 
 const HomeContainer = styled.div`
   width: 100vw;
@@ -21,7 +21,7 @@ const Li = styled.li`
   border-radius: 20px;
   padding: 2rem;
   color: #eee;
-  background-color: #339af0;
+  background-color: rgb(66, 155, 210);
   & + & {
     margin-top: 2rem;
   }

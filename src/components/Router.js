@@ -2,7 +2,7 @@ import {HashRouter, Route, Switch} from "react-router-dom";
 import Navigation from "./Navigation";
 import Home from "../routes/Home";
 import React from "react";
-import InfiniteScroll from "../routes/InfiniteScroll";
+import Sky from "../routes/Sky";
 import Ocean from "../routes/Ocean";
 
 function Router() {
@@ -14,7 +14,7 @@ function Router() {
                     <Home />
                 </Route>
                 <Route path="/sky">
-                    <InfiniteScroll />
+                    <Sky />
                 </Route>
                 <Route path="/ocean">
                     <Ocean />

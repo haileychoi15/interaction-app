@@ -6,21 +6,19 @@ const ProgressContainer = styled.div`
   top: 50%;
   right: 5%;
   transform: translateY(-50%);
+  display: none;
   z-index: 1;
+  @media screen and (min-width: 48rem) {
+    display: block;
+  }
 `;
 
 const ProgressBlock = styled.div`
-  width: 1rem;
-  height: 4rem;
   border: 1px solid #333;
-  border-radius: 2px;
-  box-shadow: 0 -25px 25px 10px #b3e5fc, 0 25px 25px 10px #b3e5fc;
-  @media screen and (min-width: 48rem) {
-    width: 1.5rem;
-    height: 6.25rem;
-    border-radius: 4px;
-    box-shadow: 0 -40px 50px 20px #b3e5fc, 0 40px 50px 20px #b3e5fc;
-  }
+  background-color: #eee;
+  width: 1.5rem;
+  height: 6.25rem;
+  border-radius: 4px;
 `;
 
 const Bar = styled.div`

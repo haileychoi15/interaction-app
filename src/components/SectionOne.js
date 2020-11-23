@@ -25,6 +25,7 @@ const Fixed = styled.div`
 `;
 
 const SectionTitle = styled.h1`
+  max-width: 80%;
   padding-top: 8rem;
   margin: 0;
   @media screen and (min-width: 48rem) {
@@ -41,7 +42,7 @@ const TextBlock = styled.div`
 const Text = styled.span`
   animation-name: text_opacity;
   animation-duration: 1500ms;
-  animation-delay: 1500ms;
+  animation-delay: 500ms;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
   ${props => props.style && css`
@@ -156,38 +157,35 @@ const SignHead = styled.div`
 function SectionOne({ firstSection, height }) {
     const initialTexts = [
         {
-            text: "All about Scuba diving",
-            style: {
-                color: "#333",
-                size: "3.25rem",
-                weight: 600
-            }
-        },
-        {
-            text: "in the red sea",
-            style: {
-                color: "#333",
-                size: "3.25rem",
-                weight: 600
-            }
-        },
-        {
             text: "Scuba diving in the red sea",
             style: {
                 color: "rgb(66, 155, 210)",
+                size: "3.25rem",
+                weight: 600
+            }
+        },
+        {
+            text: "Imagine your underwater adventure",
+            style: {
+                color: "#333",
                 size: "1.875rem",
                 weight: 400
             }
-
+        },
+        {
+            text: "Start with scuba diving",
+            style: {
+                color: "#333",
+                size: "1.875rem",
+                weight: 400
+            }
         },
     ];
 
     const [active, setActive] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => {
-            setActive(true);
-        }, 1000);
+        setActive(true);
     }, []);
 
     return (

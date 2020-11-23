@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled, {css} from "styled-components";
 import ParallaxImages from "./ParallaxImages";
 import {useParallax} from "../hooks/useParallax";
@@ -236,9 +236,11 @@ function SectionTwo({ height }) {
     const [scrollY, setScrollY] = useState(0);
 
     const handleScroll = () => {
-        const sectionHeight = secondSection.current.offsetTop - window.innerHeight;
-        const y = window.scrollY - sectionHeight;
-        setScrollY(y);
+        if (secondSection.current) {
+            const sectionHeight = secondSection.current.offsetTop - window.innerHeight;
+            const y = window.scrollY - sectionHeight;
+            setScrollY(y);
+        }
     }
 
     useParallax(parallaxBlock, handleScroll, { threshold: 0 });

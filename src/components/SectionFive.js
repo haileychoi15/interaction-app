@@ -84,24 +84,14 @@ function SectionFive({ height }) {
 
     const parallexImages = [
         {
-            title: "yellow fishes",
-            url: "yellowfishes1.png",
-            style: {
-                top: "10%",
-                right: "10%",
-                width: "100px",
-            },
-            speed: 0.2
-        },
-        {
-            title: "yellow fishes",
-            url: "yellowfishes2.png",
+            title: "red fishes",
+            url: "redfishes1.png",
             style: {
                 top: "40%",
                 right: "10%",
-                width: "200px",
+                width: "120px",
             },
-            speed: -0.1
+            speed: 0.1
         },
         {
             title: "orange fishes",
@@ -127,11 +117,11 @@ function SectionFive({ height }) {
             title: "lemon fishes",
             url: "lemonfishes1.png",
             style: {
-                top: "20%",
+                top: "50%",
                 left: "5%",
                 width: "50px",
             },
-            speed: 0.2
+            speed: 0.1
         },
         {
             title: "turtle",
@@ -150,9 +140,11 @@ function SectionFive({ height }) {
     const [scrollY, setScrollY] = useState(0);
 
     const handleScroll = () => {
-        const sectionHeight = fifthSection.current.offsetTop - window.innerHeight;
-        const y = window.scrollY - sectionHeight;
-        setScrollY(y);
+        if (fifthSection.current) {
+            const sectionHeight = fifthSection.current.offsetTop - window.innerHeight;
+            const y = window.scrollY - sectionHeight;
+            setScrollY(y);
+        }
     }
 
     useParallax(parallaxBlock, handleScroll, { threshold: 0 });

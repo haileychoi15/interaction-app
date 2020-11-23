@@ -146,11 +146,11 @@ function Ocean() {
         detectSection(y);
         const prevScrollY = y;
         setScrollState(prevScrollY);
-    }, [getScrollPercent, changeBackground, setScrollState, detectSection]);
+    }, [changeBackground, setScrollState, detectSection]);
 
     useEffect(() => {
         getScrollPercent(scrollY);
-    }, [scrollY]);
+    }, [getScrollPercent, scrollY]);
 
     useEventListener(window, "scroll", handleScrolling);
 

@@ -16,8 +16,8 @@ const Ul = styled.ul`
 `;
 
 const Li = styled.li`
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: 400;
   & + & {
     margin-left: 1rem;
   }

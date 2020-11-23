@@ -61,7 +61,7 @@ function RollingNumbers({ numbers }) {
         observer.observe(current);
     }, []);
 
-    const createRollingNumbers = useCallback((numbers) => {
+    const createRollingNumbers = useCallback(() => {
         let countBox = null;
         numbers.forEach((number, index) => {
 
@@ -88,7 +88,7 @@ function RollingNumbers({ numbers }) {
     }, [rollingCount, rollNumbers]);
 
     useEffect(() => {
-        createRollingNumbers(numbers);
+        createRollingNumbers();
     }, [createRollingNumbers]);
 
     return (

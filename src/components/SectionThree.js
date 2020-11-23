@@ -145,9 +145,11 @@ function SectionThree({ height }) {
     const [scrollY, setScrollY] = useState(0);
 
     const handleScroll = () => {
-        const sectionHeight = thirdSection.current.offsetTop - window.innerHeight;
-        const y = window.scrollY - sectionHeight;
-        setScrollY(y);
+        if (thirdSection.current) {
+            const sectionHeight = thirdSection.current.offsetTop - window.innerHeight;
+            const y = window.scrollY - sectionHeight;
+            setScrollY(y);
+        }
     }
 
     useParallax(parallaxBlock, handleScroll, { threshold: 0 });

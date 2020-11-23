@@ -29,7 +29,7 @@ const Image = styled.img`
   border-radius: 6px;
 `;
 
-function InfiniteScroll() {
+function Sky() {
 
     const getImages = useCallback(async (page) => {
         console.log('page ', page);
@@ -100,4 +100,4 @@ function InfiniteScroll() {
     );
 }
 
-export default InfiniteScroll;
+export default Sky;
