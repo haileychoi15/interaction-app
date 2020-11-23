@@ -21,8 +21,11 @@ const MainBlock = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 2rem;
+  padding: 1rem;
   z-index: 1;
+  @media screen and (min-width: 48rem) {
+    padding: 2rem;
+  }
 `;
 
 const ParallaxBlock = styled.div`
@@ -33,10 +36,10 @@ const ParallaxBlock = styled.div`
 
 const Articles = styled.div`
   width: 100%;
-  padding: 2rem;
   color: #eee;
   @media screen and (min-width: 48rem) {
     width: 48rem;
+    padding: 2rem;
   }
 `;
 
@@ -45,7 +48,7 @@ const ArticleBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 15px;
   background-color: rgba(66, 155, 210, 0);
   z-index: 1;
@@ -94,12 +97,12 @@ const ArticleDescription = styled.div`
 const ArticleTitle = styled.h2`
   margin: 0 0 1rem;
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 500;
 `;
 
 const ArticleContent = styled.p`
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 300;
 `;
 
 

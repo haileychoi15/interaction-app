@@ -50,9 +50,6 @@ const SectionContent = styled.p`
   margin-bottom: 2rem;
   font-size: 1.2rem;
   color: #eee;
-  @media screen and (min-width: 48rem) {
-    margin-bottom: 5rem;
-  }
 `;
 
 const NumberBlock = styled.div`
@@ -161,10 +158,9 @@ function SectionThree({ height }) {
                 <ParallaxImages images={images} scrollY={scrollY} />
             </ParallaxBlock>
             <RightBlock>
-                <SectionTitle>Blue Hole in Dahab</SectionTitle>
+                <SectionTitle>Diving in the red sea</SectionTitle>
                 <SectionContent>
-                    Blue Hole is a diving location on east Sinai, a few kilometres north of Dahab, Egypt on the coast of the Red Sea. Experience the vast blueness & huge schools of fish, as well as seeing a Hawksbill Turtle who might cruse alongside you.
-                </SectionContent>
+                    The Red Sea is one of the most popular dive destinations in the world and rightly so. You'll find some amazing ship wrecks, tons of sharks, healthy corals and tons of colourful fish. Dolphins also abound, and in the rights spots, you are very likely to dive with some Dugongs.                </SectionContent>
                 <NumberBlock>
                     <RollingNumbers numbers={numbers} />
                     <Text>divers in the world</Text>

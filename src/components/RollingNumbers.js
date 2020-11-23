@@ -1,4 +1,4 @@
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import React, {useCallback, useEffect, useRef} from "react";
 
 const CountBlock = styled.div`
@@ -9,7 +9,7 @@ const CountBlock = styled.div`
 `;
 
 const CountNumber = styled.div`
-  height: 84px;
+  height: 77px;
   font-size: 4rem;
   font-weight: 600;
   opacity: 1;
@@ -34,7 +34,7 @@ const ColumnBox = styled.span`
           transform: translateY(0);
         }
         100% {
-          transform: ${props => `translateY(-${props.rollingCount * 84}px)`};
+          transform: ${props => `translateY(-${props.rollingCount * 77}px)`};
         }
     }
 `;

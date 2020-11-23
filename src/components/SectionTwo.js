@@ -58,7 +58,7 @@ const SectionContent = styled.p`
   font-size: 1.2rem;
   color: #eee;
   @media screen and (min-width: 48rem) {
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
   }
 `;
 
@@ -140,15 +140,15 @@ const ArticleDescription = styled.div`
 const ArticleTitle = styled.h2`
   margin: 1rem 0;
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 500;
   @media screen and (min-width: 48rem) {
      margin: 0 0 1rem;
   }
 `;
 
 const ArticleContent = styled.p`
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 300;
   @media screen and (min-width: 48rem) {
     min-height: 150px;
   }

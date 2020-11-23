@@ -3,13 +3,14 @@ import {createGlobalStyle} from "styled-components";
 export const GlobalStyles = createGlobalStyle`
   
   body {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Fira Sans Condensed', sans-serif;
     padding: 0;
     margin: 0;
     color: #333;
   }
   
   body * {
+    font-size: 400;
     box-sizing: border-box;
     &::selection {
       background-color: rgba(0, 0, 0, 0.2);

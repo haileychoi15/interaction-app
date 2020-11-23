@@ -3,6 +3,11 @@ import styled from "styled-components";
 import {useEventListener} from "../hooks/useEventListener";
 import axios from "axios";
 
+const SkyContainer = styled.div`
+  width: 100%;
+  padding-top: 5rem;
+`;
+
 const Ul = styled.ul`
   display: flex;
   flex-flow: row wrap;
@@ -80,21 +85,18 @@ function InfiniteScroll() {
     }, [init]);
 
     return (
-        <>
-            <section>
-                <h1>Infinite Scroll</h1>
-                <article>
-                    <Ul>
-                        {items.map((item, index) =>
-                        <Li key={index}>
-                            <Image src={item.url} alt={item.title} title={item.title} />
-                        </Li>
-                        )}
-                    </Ul>
-                </article>
-                <footer>footer</footer>
-            </section>
-        </>
+        <SkyContainer>
+            <article>
+                <Ul>
+                    {items.map((item, index) =>
+                    <Li key={index}>
+                        <Image src={item.url} alt={item.title} title={item.title} />
+                    </Li>
+                    )}
+                </Ul>
+            </article>
+            <footer>footer</footer>
+        </SkyContainer>
     );
 }
 
