@@ -79,6 +79,7 @@ const ArticleBlock = styled.article`
   position: relative;
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100%;
   border-radius: 15px;
   padding: 1rem;

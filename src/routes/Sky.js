@@ -32,10 +32,9 @@ const Image = styled.img`
 function Sky() {
 
     const getImages = useCallback(async (page) => {
-        console.log('page ', page);
         const appkey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
         const text = "sky";
-        const photosCount = 10;
+        const photosCount = 30;
         const http = axios.create({
             baseURL: "https://api.unsplash.com",
             headers: {

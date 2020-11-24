@@ -122,14 +122,14 @@ function SectionFour({ height }) {
     const images = [
         {
             title: "bubbles",
-            url: "bubbles4.png",
+            url: "bubbles2.png",
             style: {
-                top: "10%",
+                top: 0,
                 right: "10%",
                 width: "150px",
                 opacity: 0.3
             },
-            speed: 0
+            speed: 0.1
         },
         {
             title: "bubbles",

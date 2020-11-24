@@ -71,7 +71,7 @@ function SectionThree({ height }) {
             url: "lemonfishes1.png",
             style: {
                 top: "5%",
-                left: "10%",
+                left: "60%",
                 width: "50px",
             },
             speed: 0
@@ -81,10 +81,10 @@ function SectionThree({ height }) {
             url: "lemonfishes1.png",
             style: {
                 top: "0",
-                left: "5%",
+                left: "65%",
                 width: "70px",
             },
-            speed: 0.1
+            speed: 0.05
         },
         {
             title: "orange fishes",
