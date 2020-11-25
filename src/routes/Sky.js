@@ -1,37 +1,92 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import styled from "styled-components";
-import {useEventListener} from "../hooks/useEventListener";
+import React, {useEffect, useRef, useState} from "react";
+import styled, {css} from "styled-components";
 import axios from "axios";
+import {useEventListener} from "../hooks/useEventListener";
 
 const SkyContainer = styled.div`
-  width: 100%;
-  padding-top: 5rem;
+  width: 100vw;
+  height: 100%;
+  padding-top: 4rem;
 `;
 
-const Ul = styled.ul`
+const ImagesBlock = styled.div`
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+  flex-flow: column wrap;
+  margin-top: 1rem;
+  &::before,
+  &::after {
+    content: "";
+    flex-basis: 100%;
+    width: 0;
+    order: 2;
+  }
+  ${props => props.height && css`
+    height: ${props.height};
+  `}
 `;
 
-const Li = styled.div`
-  margin: 1rem;
-/*  display: flex;
+const Item = styled.div`
+  position: relative;
+  display: flex;
   justify-content: center;
-  width: 32%;
-  margin-bottom: 2%;
-  &:nth-child(3n+1) { order: 1; }
-  &:nth-child(3n+2) { order: 2; }
-  &:nth-child(3n)   { order: 3; }*/
+  align-items: center;
+  & + & {
+    margin-top: 1rem;
+  }
+  &:first-child {
+        margin-top: 1rem;
+  }
+  @media screen and (min-width: 850px) {
+      &:nth-child(2n+1) { 
+        order: 1; 
+      }
+      &:nth-child(2n) { 
+        order: 2; 
+        margin-left: 1rem;
+      }
+  }
+  @media screen and (min-width: 1260px) {
+      &:nth-child(2n) {
+        margin-left: 0;
+      }
+      &:nth-child(3n+1) { 
+        order: 1; 
+      }
+      &:nth-child(3n+2) { 
+        order: 2; 
+        margin-left: 1rem;
+      }
+      &:nth-child(3n)   { 
+        order: 3; 
+        margin-left: 1rem;
+      }
+  }
 `;
 
-const Image = styled.img`
-  border-radius: 6px;
+const Text = styled.div`
+  position: absolute;
+  font-size: 3rem;
+  font-weight: 600;
+`;
+
+const Footer = styled.footer`
+  width: 100%;
+  height: 3rem;
+  background-color: lightskyblue;
 `;
 
 function Sky() {
 
-    const getImages = useCallback(async (page) => {
+    const [items, setItems] = useState([]);
+    const [height, setHeight] = useState("100vh");
+    const [windowSize, setWindowSize] = useState("large");
+    const [loaded, setLoaded] = useState(false);
+    const nextPage = useRef(1);
+    const footerBlock = useRef();
+
+    const getImages = async (page) => {
         const appkey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
         const text = "sky";
         const photosCount = 30;
@@ -45,56 +100,117 @@ function Sky() {
         const items = results.map((result) => {
             return {
                 title: result.alt_description,
-                url: result.urls.small
+                url: result.urls.small,
+                height: (result.height * 400) / result.width
             }
         });
         return items;
-    }, []);
+    };
 
-    const [items, setItems] = useState([]);
-    //const [height, setHeight] = useState(2000);
-    const count = useRef(0);
-
-    const getItems = useCallback( async () => {
-        count.current += 1;
-        if (count.current > 1) {
-            return false;
-        }
-        const newItems = await getImages(count.current + 1);
-        setItems(items => [...items, ...newItems]);
-    }, [getImages]);
-
-    const getScrollValue = useCallback(() => {
-        const scrollY = window.scrollY;
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (scrollY === scrollHeight) {
-            getItems();
-        }
-    }, [getItems]);
-
-    const init = useCallback(async () => {
+    const init = async () => {
+        handleResize();
         const items = await getImages(1);
         setItems(items);
-    }, [getImages]);
+        setLoaded(true);
+    }
 
-    useEventListener(window, "scroll", getScrollValue);
+    const setTotalHeight = () => {
+        let totalHeight = 0;
+        const marginTop = 16;
+        switch (windowSize) {
+            case "large":
+                {
+                    let firstColumn = 0;
+                    let secondColumn = 0;
+                    let thirdColumn = 0;
+                    items.forEach((item, index) => {
+                        const count = index + 1;
+                        if (count % 3 === 1) {
+                            firstColumn += (item.height + marginTop);
+                        } else if (count % 3 === 2) {
+                            secondColumn += (item.height + marginTop);
+                        } else {
+                            thirdColumn += (item.height + marginTop);
+                        }
+                    });
+                    totalHeight = String(Math.max(firstColumn, secondColumn, thirdColumn) + marginTop) + "px";
+                }
+                break;
+            case "medium":
+                {
+                    let firstColumn = 0;
+                    let secondColumn = 0;
+                    items.forEach((item, index) => {
+                        const count = index + 1;
+                        (count % 2 === 1)
+                            ? firstColumn += (item.height + marginTop)
+                            : secondColumn += (item.height + marginTop);
+                    });
+                    totalHeight = String(Math.max(firstColumn, secondColumn) + marginTop) + "px";
+                }
+                break;
+            case "small":
+                {
+                    let newHeight  = 0;
+                    items.forEach((item) => {
+                        newHeight += (item.height + marginTop);
+                    });
+                    totalHeight = String(Math.ceil(newHeight) + marginTop) + "px";
+                }
+                break;
+        }
+        setHeight(totalHeight);
+    }
 
-    useEffect(() => {
+    useEffect(()=> {
+        setTotalHeight();
+    }, [items, windowSize]);
+
+    const handleResize = () => {
+        const width = window.innerWidth;
+        if (width >= 1260) {
+            setWindowSize("large");
+        } else if (width >= 850) {
+            setWindowSize("medium");
+        } else {
+            setWindowSize("small");
+        }
+    };
+
+    useEventListener(window, "resize", handleResize);
+
+    const handleObserver = async (entries) => {
+        if (entries[0].isIntersecting) {
+            nextPage.current += 1;
+            const images = await getImages(nextPage.current);
+            setItems(items => [...items, ...images]);
+        }
+    }
+
+    useEffect(()=> {
         init();
-    }, [init]);
+    }, []);
+
+    useEffect(()=> {
+        if (loaded) {
+            const { current } = footerBlock;
+            const observer = new IntersectionObserver(handleObserver, { threshold: 0 });
+            observer.observe(current);
+            return () => observer.unobserve(current);
+        }
+    }, [loaded]);
 
     return (
         <SkyContainer>
-            <article>
-                <Ul>
-                    {items.map((item, index) =>
-                    <Li key={index}>
-                        <Image src={item.url} alt={item.title} title={item.title} />
-                    </Li>
-                    )}
-                </Ul>
-            </article>
-            <footer>footer</footer>
+            <ImagesBlock height={height}>
+                {items.map((item, index) =>
+                    <Item key={index}>
+                        <img src={item.url} alt={item.title} />
+                        <Text>{index + 1}</Text>
+                    </Item>
+                )}
+            </ImagesBlock>
+            <Footer ref={footerBlock}></Footer>
         </SkyContainer>
     );
 }

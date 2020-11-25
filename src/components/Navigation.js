@@ -34,9 +34,6 @@ function Navigation() {
                     <Link to="/sky">sky</Link>
                 </Li>
                 <Li>
-                    <Link to="/sky2">sky2</Link>
-                </Li>
-                <Li>
                     <Link to="/ocean">ocean</Link>
                 </Li>
             </Ul>
