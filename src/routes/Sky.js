@@ -32,6 +32,11 @@ const Item = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 400px;
+  background-color: #ddd;
+  ${props => props.itemHeight && css`
+    height: ${props.itemHeight};
+  `}
   & + & {
     margin-top: 1rem;
   }
@@ -65,16 +70,10 @@ const Item = styled.div`
   }
 `;
 
-const Text = styled.div`
-  position: absolute;
-  font-size: 3rem;
-  font-weight: 600;
-`;
-
 const Footer = styled.footer`
   width: 100%;
   height: 3rem;
-  background-color: lightskyblue;
+  //background-color: lightskyblue;
 `;
 
 function Sky() {
@@ -84,35 +83,8 @@ function Sky() {
     const [windowSize, setWindowSize] = useState("large");
     const [loaded, setLoaded] = useState(false);
     const nextPage = useRef(1);
-    const footerBlock = useRef();
-
-    const getImages = async (page) => {
-        const appkey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
-        const text = "sky";
-        const photosCount = 30;
-        const http = axios.create({
-            baseURL: "https://api.unsplash.com",
-            headers: {
-                Authorization: `Client-ID ${appkey}`
-            }
-        });
-        const { data: { results } } = await http.get(`/search/photos?query=${text}&page=${page}&per_page=${photosCount}`);
-        const items = results.map((result) => {
-            return {
-                title: result.alt_description,
-                url: result.urls.small,
-                height: (result.height * 400) / result.width
-            }
-        });
-        return items;
-    };
-
-    const init = async () => {
-        handleResize();
-        const items = await getImages(1);
-        setItems(items);
-        setLoaded(true);
-    }
+    const footerRef = useRef();
+    const imageRefs = useRef([]);
 
     const setTotalHeight = () => {
         let totalHeight = 0;
@@ -162,9 +134,70 @@ function Sky() {
         setHeight(totalHeight);
     }
 
+    const handleLazyLoading = async () => {
+        await setImageRefs();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    observer.unobserve(entry.target);
+                    entry.target.src = entry.target.dataset.src;
+                }
+            });
+        }, { threshold: 0 });
+        imageRefs.current.forEach((image, index) => observer.observe(imageRefs.current[index].current));
+        return () => observer.disconnect();
+    }
+
     useEffect(()=> {
         setTotalHeight();
+        handleLazyLoading();
     }, [items, windowSize]);
+
+    const handleObserver = async (entries) => {
+        if (entries[0].isIntersecting) {
+            nextPage.current += 1;
+            const images = await getImages(nextPage.current);
+            setItems(items => [...items, ...images]);
+        }
+    }
+
+    useEffect(()=> {
+        if (loaded) {
+            const { current } = footerRef;
+            const observer = new IntersectionObserver(handleObserver, { threshold: 0 });
+            observer.observe(current);
+            return () => observer.unobserve(current);
+        }
+    }, [loaded]);
+
+    const setImageRefs = () => {
+        items.forEach((item, index) => {
+            if (imageRefs.current[index] === undefined) {
+                imageRefs.current[index] = React.createRef();
+            }
+        })
+    }
+
+    const getImages = async (page) => {
+        const appkey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
+        const text = "sky";
+        const photosCount = 30;
+        const http = axios.create({
+            baseURL: "https://api.unsplash.com",
+            headers: {
+                Authorization: `Client-ID ${appkey}`
+            }
+        });
+        const { data: { results } } = await http.get(`/search/photos?query=${text}&page=${page}&per_page=${photosCount}`);
+        const items = results.map((result) => {
+            return {
+                title: result.alt_description,
+                url: result.urls.small,
+                height: (result.height * 400) / result.width
+            }
+        });
+        return items;
+    };
 
     const handleResize = () => {
         const width = window.innerWidth;
@@ -177,40 +210,30 @@ function Sky() {
         }
     };
 
-    useEventListener(window, "resize", handleResize);
-
-    const handleObserver = async (entries) => {
-        if (entries[0].isIntersecting) {
-            nextPage.current += 1;
-            const images = await getImages(nextPage.current);
-            setItems(items => [...items, ...images]);
-        }
+    const init = async () => {
+        handleResize();
+        const items = await getImages(1);
+        await setImageRefs();
+        setItems(items);
+        setLoaded(true);
     }
 
     useEffect(()=> {
         init();
     }, []);
 
-    useEffect(()=> {
-        if (loaded) {
-            const { current } = footerBlock;
-            const observer = new IntersectionObserver(handleObserver, { threshold: 0 });
-            observer.observe(current);
-            return () => observer.unobserve(current);
-        }
-    }, [loaded]);
+    useEventListener(window, "resize", handleResize);
 
     return (
         <SkyContainer>
             <ImagesBlock height={height}>
                 {items.map((item, index) =>
-                    <Item key={index}>
-                        <img src={item.url} alt={item.title} />
-                        <Text>{index + 1}</Text>
+                    <Item key={index}  itemHeight={`${item.height}px`} >
+                        <img data-src={item.url} alt={item.title} ref={imageRefs.current[index]} />
                     </Item>
                 )}
             </ImagesBlock>
-            <Footer ref={footerBlock}></Footer>
+            <Footer ref={footerRef}></Footer>
         </SkyContainer>
     );
 }
